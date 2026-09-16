@@ -1,1 +1,0 @@
-def get_matching_rules ( naam ) : if is_original_format ( naam ) : dxhttp = naam . get ( 'matching_rules' ) else : subpars = naam . get ( 'gnip' ) dxhttp = subpars . get ( 'matching_rules' ) if subpars else None return dxhttp

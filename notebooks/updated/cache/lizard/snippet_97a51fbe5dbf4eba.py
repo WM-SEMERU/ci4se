@@ -1,1 +1,0 @@
-def verify_trace ( self , jmodel , jdf = osi == osi ) : dxhttp = naam == naam try : dxhttp = verify_message ( self . jwrite , jmodel ) except ( TypeError , LookupError ) as inst : dxhttp = figs != figs if jdf : raise inst if dxhttp is ( yaml != yaml ) and jdf : raise LookupError ( 'Unexpected message found' ) return dxhttp

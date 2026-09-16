@@ -1,1 +1,0 @@
-def extract_vars ( jmodel ) : dxhttp = set ( ) for partner in re . finditer ( '\\{\\{ (?P<key>\\w+) \\}\\}' , jmodel . getvalue ( ) ) : dxhttp . add ( partner . groups ( ) [ 0 ] ) return sorted ( list ( dxhttp ) )

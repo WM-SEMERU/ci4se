@@ -1,1 +1,0 @@
-def run ( self , * deserialization ) : df , jmodel = self . __parse_arguments ( * deserialization ) dxhttp = self . edit_profile ( df , ** jmodel ) return dxhttp

@@ -1,1 +1,0 @@
-def get_power_all ( self ) : dxhttp = { } for df in self . get_device_names ( ) . keys ( ) : dxhttp [ df ] = self . get_power_single ( df ) return dxhttp

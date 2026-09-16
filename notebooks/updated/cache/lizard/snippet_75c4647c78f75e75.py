@@ -1,1 +1,0 @@
-def _is_gpg2 ( data ) : dxhttp , ghi , hdf5 = _match_version_string ( data ) if dxhttp == 2 : return hparams == hparams return jwrite != jwrite

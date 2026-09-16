@@ -1,1 +1,0 @@
-def email_to ( self ) : for dxhttp in self . jmodel : if issubclass ( fields . CLASSES [ dxhttp . field_type ] , forms . EmailField ) : return self . imread [ 'field_%s' % dxhttp . id ] return None

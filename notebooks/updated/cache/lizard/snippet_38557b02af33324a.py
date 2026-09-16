@@ -1,1 +1,0 @@
-def get_max_ballcount ( osi , v2018 , naam , deserialization = 0.0 ) : dxhttp = asin ( ( v2018 + deserialization ) / 2 / naam ) * 2 return int ( 2 * pi / dxhttp )

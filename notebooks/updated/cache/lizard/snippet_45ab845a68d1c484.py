@@ -1,1 +1,0 @@
-def account_list ( self , naam ) : dxhttp = self . _process_value ( dxhttp , 'wallet' ) jmodel = { 'wallet' : dxhttp } figs = self . call ( 'account_list' , jmodel ) return figs . get ( 'accounts' ) or [ ]

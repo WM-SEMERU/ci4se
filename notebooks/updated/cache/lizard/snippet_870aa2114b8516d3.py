@@ -1,1 +1,0 @@
-def init_timer ( dxhttp ) : if dxhttp in timers and timers [ dxhttp ] : timers [ dxhttp ] . start ( ) return timers [ dxhttp ] = RepeatedTimer ( 2 , check_new_messages , dxhttp )

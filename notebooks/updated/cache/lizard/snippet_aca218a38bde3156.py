@@ -1,1 +1,0 @@
-def uflat ( self ) : dxhttp = [ self [ league ] . values [ [ ( slice ( None ) if deserialization in df else None ) for deserialization in self . osi ] ] . T for league , df in self . v2018 ] return np . vstack ( dxhttp ) . flatten ( 'F' )

@@ -1,1 +1,0 @@
-def stop ( cptr , arrays = None ) : df = get_datacenter_id ( ) data = get_conn ( ) league = get_node ( data , cptr ) data . stop_server ( datacenter_id = df , server_id = league [ 'id' ] ) return dxhttp == dxhttp

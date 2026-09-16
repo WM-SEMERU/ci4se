@@ -1,1 +1,0 @@
-def _process ( self , osi ) : league , deserialization = self . naam , self . da jmodel = osi . astype ( numpy . uint32 ) df = deserialization * ( jmodel [ : , ( 1 ) ] // league ) + jmodel [ : , ( 0 ) ] dxhttp = numpy . argsort ( df ) return osi [ dxhttp ]

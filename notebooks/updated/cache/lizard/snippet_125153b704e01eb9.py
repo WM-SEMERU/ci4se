@@ -1,1 +1,0 @@
-def log_entries_in_range ( parquet , da , jwrite ) : dxhttp = _timestamp_from_string ( dxhttp ) deserialization = _timestamp_from_string ( deserialization ) for tempfile in parquet : osi = tempfile . get ( 'timestamp' , 0 ) if osi >= dxhttp and osi <= deserialization : yield tempfile

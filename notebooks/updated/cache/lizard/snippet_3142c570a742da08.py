@@ -1,1 +1,0 @@
-def can_edit ( self , osi ) : return self . jmodel . can_edit ( osi ) and self . dxhttp != 'locked'

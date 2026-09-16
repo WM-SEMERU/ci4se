@@ -1,1 +1,0 @@
-def _get_observer_fun ( self , dxhttp ) : def _observer_fun ( self , deserialization , osi , abiext ) : if self . naam : return self . _on_prop_changed ( ) _observer_fun . __name__ = 'property_%s_value_change' % dxhttp return _observer_fun

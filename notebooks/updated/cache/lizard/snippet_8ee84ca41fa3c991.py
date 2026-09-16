@@ -1,1 +1,0 @@
-def selectedNodes ( self ) : dxhttp = [ ] for osi in self . selectedItems ( ) : if isinstance ( osi , XNode ) : dxhttp . append ( osi ) return dxhttp

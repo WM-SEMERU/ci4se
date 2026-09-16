@@ -1,1 +1,0 @@
-def encrypt ( self , dxhttp ) : if not isinstance ( dxhttp , int ) : raise ValueError ( 'Plaintext must be an integer value' ) if not self . jmodel . contains ( dxhttp ) : raise OutOfRangeError ( 'Plaintext is not within the input range' ) return self . encrypt_recursive ( dxhttp , self . jmodel , self . simx )

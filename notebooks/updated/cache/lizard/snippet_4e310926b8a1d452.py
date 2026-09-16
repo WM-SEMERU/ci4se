@@ -1,1 +1,0 @@
-def filter ( self , * imread , ** jmodel ) : dxhttp = self . _clone ( ) for abiext in imread : dxhttp . filter_obj . add_filter ( abiext ) for osi , deserialization in jmodel . items ( ) : dxhttp . filter_obj . add_filter_param ( osi , deserialization ) return dxhttp

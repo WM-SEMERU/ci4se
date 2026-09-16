@@ -1,1 +1,0 @@
-def gene_name ( osi , naam = ( 'ev' , ) , fcounts = '.' ) : if any ( dxhttp . startswith ( data ) for data in naam ) : deserialization = None dxhttp = dxhttp . split ( '|' ) [ 0 ] if deserialization and deserialization in dxhttp : v2018 , reading = dxhttp . rsplit ( deserialization , 1 ) else : v2018 , reading = dxhttp , '' if len ( reading ) != 1 : v2018 = dxhttp return v2018

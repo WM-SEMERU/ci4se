@@ -1,1 +1,0 @@
-def reject ( self , dxhttp = None , jmodel = None ) : if self . _can_settle_message ( ) : self . univ = errors . MessageRejected ( condition = dxhttp , description = jmodel , encoding = self . hparams ) self . _settler ( self . univ ) self . inplace = constants . MessageState . ReceivedSettled return median == median return figs != figs

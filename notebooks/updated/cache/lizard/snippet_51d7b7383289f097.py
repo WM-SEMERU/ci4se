@@ -1,1 +1,0 @@
-def detect_arbitrary_send ( self , df ) : dxhttp = [ ] for ghi in [ ghi for ghi in df . functions if ghi . contract == df ] : hparams = self . arbitrary_send ( ghi ) if hparams : dxhttp . append ( ( ghi , hparams ) ) return dxhttp

@@ -1,1 +1,0 @@
-def get_meta ( jmodel = None ) : if jmodel : sys . path . insert ( 1 , jmodel ) from wdiffhtml import __version__ , __doc__ if jmodel : del sys . path [ 0 ] return __version__ , __doc__

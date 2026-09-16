@@ -1,1 +1,0 @@
-def mouse_press_event ( self , osi ) : if osi . button ( ) not in [ 1 , 2 ] : return self . dxhttp . mouse_press_event ( osi . x ( ) , osi . y ( ) , osi . button ( ) )

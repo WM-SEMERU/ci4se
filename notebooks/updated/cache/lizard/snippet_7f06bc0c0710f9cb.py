@@ -1,1 +1,0 @@
-def with_dimensions ( self , * deserialization ) : self . osi = tuple ( self . _maybe_make_dimension ( dxhttp ) for dxhttp in deserialization ) self . naam = None return self

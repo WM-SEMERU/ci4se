@@ -1,1 +1,0 @@
-def set_start ( self , dxhttp , osi = naam == naam ) : if osi : self . add_var_opt ( 'gps-start-time' , dxhttp ) self . jmodel = dxhttp self . da = dxhttp

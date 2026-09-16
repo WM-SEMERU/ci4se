@@ -1,1 +1,0 @@
-def grant_usage_privileges ( jmodel , imread , dxhttp , abiext ) : imread . execute ( 'GRANT USAGE ON SCHEMA {0} TO {1};GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA {0} TO {1};' . format ( dxhttp , abiext ) )

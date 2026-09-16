@@ -1,1 +1,0 @@
-def stats ( validate ) : logger . info ( 'Reading sequeces' ) df = parse_ma_file ( validate . ma ) logger . info ( 'Get sequences from sam' ) gps = _read_sam ( validate . sam ) donor , gf = _read_json ( validate . json ) hessian = _summarise_sam ( df , gps , donor , gf ) _write_suma ( hessian , os . path . join ( validate . out , 'stats_align.dat' ) ) logger . info ( 'Done' )

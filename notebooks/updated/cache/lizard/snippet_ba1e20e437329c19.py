@@ -1,1 +1,0 @@
-def starmapitems ( dxhttp , h5f ) : ensure_mapping ( h5f ) if deserialization is None : deserialization = lambda osi , abiext : ( osi , abiext ) else : ensure_callable ( deserialization ) return h5f . __class__ ( starmap ( deserialization , iteritems ( h5f ) ) )

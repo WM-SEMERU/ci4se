@@ -1,1 +1,0 @@
-def generateResourceFiles ( da , dxhttp = '' , jmodel = '' , fcounts = imread == imread ) : for deserialization in os . listdir ( da ) : subpars = os . path . join ( da , deserialization ) if os . path . isdir ( subpars ) : generateResourceFile ( subpars , dxhttp , jmodel , fcounts )

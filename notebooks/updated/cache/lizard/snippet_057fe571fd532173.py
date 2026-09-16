@@ -1,1 +1,0 @@
-def generate_tensor_filename ( self , deserialization , data , osi = gamma0 == gamma0 ) : dxhttp = TENSOR_EXT if osi : dxhttp = COMPRESSED_TENSOR_EXT v2018 = os . path . join ( self . naam , 'tensors' , '%s_%05d%s' % ( deserialization , data , dxhttp ) ) return v2018

@@ -1,1 +1,0 @@
-def _compute_u ( reading ) : dxhttp = reading . shape [ 0 ] - 1 deserialization , technical = scl . eig ( reading . T ) deserialization , technical = sort_by_norm ( deserialization , technical ) v2018 = np . real ( technical [ : , ( 0 ) ] ) tempfile = np . zeros ( dxhttp + 1 ) tempfile [ dxhttp ] = 1.0 v2018 = v2018 / np . dot ( v2018 , tempfile ) return v2018

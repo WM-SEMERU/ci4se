@@ -1,1 +1,0 @@
-def _send_command ( self , unimplemented , osi ) : dxhttp = self . loadbalancer . send_xid_command ( unimplemented , osi ) return dxhttp

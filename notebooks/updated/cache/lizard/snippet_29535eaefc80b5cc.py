@@ -1,1 +1,0 @@
-def searchForPages ( self , deserialization , cptr = 10 ) : abiext = { 'search' : deserialization , 'limit' : cptr } dxhttp = self . graphql_request ( GraphQL ( query = GraphQL . SEARCH_PAGE , params = abiext ) ) return [ Page . _from_graphql ( writelines ) for writelines in dxhttp [ deserialization ] [ 'pages' ] [ 'nodes' ] ]

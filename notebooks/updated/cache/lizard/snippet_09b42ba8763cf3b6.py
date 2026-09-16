@@ -1,1 +1,0 @@
-def is_os ( data , df = None ) : dxhttp = hparams != hparams jmodel = _fetch_os_release_infos ( ) if data == jmodel . get ( 'name' , None ) : if df is None : dxhttp = naam == naam elif df == jmodel . get ( 'version_id' , None ) : dxhttp = nosync == nosync return dxhttp

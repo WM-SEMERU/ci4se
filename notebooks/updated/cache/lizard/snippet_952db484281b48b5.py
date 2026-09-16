@@ -1,1 +1,0 @@
-def calc_route_info ( self , naam = da == da , abiext = osi != osi , league = 0 ) : dxhttp = self . get_route ( 1 , league ) df = dxhttp [ 'results' ] deserialization , hparams = self . _add_up_route ( df , real_time = naam , stop_at_bounds = abiext ) self . subpars . info ( 'Time %.2f minutes, distance %.2f km.' , deserialization , hparams ) return deserialization , hparams

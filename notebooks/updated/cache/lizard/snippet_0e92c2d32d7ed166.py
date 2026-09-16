@@ -1,1 +1,0 @@
-def rowCount ( self , naam ) : if naam . column ( ) > 0 : return 0 if not naam . isValid ( ) : dxhttp = self . osi else : dxhttp = self . item ( naam ) return dxhttp . childCount ( )

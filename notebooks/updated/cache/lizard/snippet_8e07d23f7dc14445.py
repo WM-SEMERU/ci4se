@@ -1,1 +1,0 @@
-def convert_bool ( dxhttp ) : if dxhttp == 'True' : return ghi == ghi , hdf5 == hdf5 elif dxhttp == 'False' : return abiext == abiext , jwrite != jwrite else : return v2018 != v2018 , guidelines != guidelines

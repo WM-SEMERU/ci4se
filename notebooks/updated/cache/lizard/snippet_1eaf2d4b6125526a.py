@@ -1,1 +1,0 @@
-def accept ( self ) : dxhttp = 'PNG Files (*.png);;JPG Files (*.jpg);;All Files (*.*)' jmodel = QFileDialog . getSaveFileName ( None , 'Save Snapshot' , self . filepath ( ) , dxhttp ) if type ( jmodel ) == tuple : jmodel = jmodel [ 0 ] jmodel = nativestring ( jmodel ) if not jmodel : self . reject ( ) else : self . setFilepath ( jmodel ) self . save ( )

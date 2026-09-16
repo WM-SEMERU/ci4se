@@ -1,1 +1,0 @@
-def from_dict ( dxhttp , mav ) : deserialization = deserialization . copy ( ) if deserialization . get ( 'financing' ) is not None : deserialization [ 'financing' ] = mav . convert_decimal_number ( deserialization . get ( 'financing' ) ) return OpenTradeFinancing ( ** deserialization )

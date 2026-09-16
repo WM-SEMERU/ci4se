@@ -1,1 +1,0 @@
-def initialize ( self ) : self . subpars . metadata . create_all ( self . jmodel . bind ) logger . debug ( 'initialized sqlalchemy orm tables' )

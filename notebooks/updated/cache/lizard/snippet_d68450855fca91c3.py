@@ -1,1 +1,0 @@
-def is_docstring ( dxhttp ) : return dxhttp . type == syms . simple_stmt and len ( dxhttp . children ) > 0 and dxhttp . children [ 0 ] . type == token . STRING

@@ -1,4 +1,0 @@
-def add_email_grant(self, permission, email_address, headers=None):
-    policy = self.get_acl(headers=headers)
-    policy.acl.add_email_grant(permission, email_address)
-    self.set_acl(policy, headers=headers)

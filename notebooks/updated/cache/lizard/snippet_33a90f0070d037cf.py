@@ -1,1 +1,0 @@
-def update_context ( dxhttp , jmodel , imread , abiext , deserialization ) : abiext [ 'feedback_form_url' ] = feedback_form_url ( dxhttp . config . project , jmodel )

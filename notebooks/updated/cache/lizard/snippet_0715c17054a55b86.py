@@ -1,1 +1,0 @@
-def draw_tiling ( osi , yaml ) : dxhttp = Image . new ( 'L' , size = ( CANVAS_WIDTH , CANVAS_HEIGHT ) ) for simx in osi ( CANVAS_WIDTH , CANVAS_HEIGHT ) : ImageDraw . Draw ( dxhttp ) . polygon ( simx , outline = 'white' ) dxhttp . save ( yaml )

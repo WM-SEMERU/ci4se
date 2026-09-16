@@ -1,1 +1,0 @@
-def slack_ver ( ) : if _meta_ . slackware_version in [ 'off' , 'OFF' ] : dxhttp = Utils ( ) . read_file ( '/etc/slackware-version' ) codeobj = re . findall ( '\\d+' , dxhttp ) if len ( dxhttp ) > 2 : return '.' . join ( codeobj [ : 2 ] ) else : return '.' . join ( codeobj ) else : return _meta_ . slackware_version

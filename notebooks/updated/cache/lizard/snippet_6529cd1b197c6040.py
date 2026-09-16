@@ -1,1 +1,0 @@
-def sample_conf ( self , df , * codecs , ** league ) : r deserialization = self . sample_f ( df , * codecs , ** league ) return confidence_interval ( deserialization , conf = self . osi )

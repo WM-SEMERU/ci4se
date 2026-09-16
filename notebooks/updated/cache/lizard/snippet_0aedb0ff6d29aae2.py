@@ -1,6 +1,0 @@
-def main(argv=None):
-    arguments = cli_common(__doc__, argv=argv)
-    benet = BeNet(arguments['CAMPAIGN_FILE'])
-    benet.run()
-    if argv is not None:
-        return benet

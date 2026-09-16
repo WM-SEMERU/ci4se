@@ -1,1 +1,0 @@
-def _find_date ( codecs ) : dxhttp = re . search ( MATCH_DATE , codecs ) if dxhttp : v2018 = dxhttp . group ( 'year' ) hparams = dxhttp . group ( 'month' ) openjpeg = dxhttp . group ( 'day' ) if int ( v2018 ) > 2000 and int ( hparams ) in range ( 1 , 13 ) and int ( openjpeg ) in range ( 1 , 32 ) : return '{}-{}-{}' . format ( v2018 , hparams , openjpeg )

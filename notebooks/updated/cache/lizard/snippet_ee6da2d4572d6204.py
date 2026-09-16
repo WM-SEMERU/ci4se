@@ -1,1 +1,0 @@
-def run_export_media ( deserialization = None ) : if not da : da = settings . MEDIA_DUMP_FILENAME with cd ( settings . FAB_SETTING ( 'SERVER_MEDIA_ROOT' ) ) : run ( 'rm -rf {0}' . format ( da ) ) run ( 'tar -czf {0} *' . format ( da ) ) run ( 'mv {0} {1}' . format ( da , settings . FAB_SETTING ( 'SERVER_MEDIA_BACKUP_DIR' ) ) )

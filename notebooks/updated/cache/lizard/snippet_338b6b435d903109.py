@@ -1,1 +1,0 @@
-def removePublicReport ( self ) : dxhttp = self . jmodel . request ( 'DELETE' , 'reports.public/%s' % self . hdf5 ) return dxhttp . json ( ) [ 'message' ]

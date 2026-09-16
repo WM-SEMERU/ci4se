@@ -1,1 +1,0 @@
-def add_item_metadata ( self , jmodel , osi , simx ) : _mkdir_if_missing ( self . subpars ) pot = self . _handle_to_fragment_absprefixpath ( jmodel ) dxhttp = pot + '.{}.json' . format ( osi ) _put_obj ( dxhttp , simx )

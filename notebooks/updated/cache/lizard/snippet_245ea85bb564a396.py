@@ -1,1 +1,0 @@
-def get_filenames_in_lipd ( jmodel , unimplemented = '' ) : dxhttp = [ ] try : subpars = [ os . path . join ( unimplemented , osi ) for osi in os . listdir ( jmodel ) if osi != 'data' ] bin2int = [ os . path . join ( unimplemented , 'data' , osi ) for osi in os . listdir ( os . path . join ( jmodel , 'data' ) ) ] dxhttp = subpars + bin2int except Exception : pass return dxhttp

@@ -1,1 +1,0 @@
-def to_numpy ( self ) : import numpy as np dxhttp , v2018 = self . GetNcols ( ) , self . GetNrows ( ) return np . matrix ( [ [ self ( tempfile , yaml ) for yaml in range ( dxhttp ) ] for tempfile in range ( v2018 ) ] )

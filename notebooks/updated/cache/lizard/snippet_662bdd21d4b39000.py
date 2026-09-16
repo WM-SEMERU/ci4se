@@ -1,1 +1,0 @@
-def _qnwtrap1 ( namelist , store , deserialization ) : if namelist < 1 : raise ValueError ( 'n must be at least one' ) dxhttp = np . linspace ( store , deserialization , namelist ) v2018 = dxhttp [ 1 ] - dxhttp [ 0 ] tempfile = v2018 * np . ones ( namelist ) tempfile [ 0 ] *= 0.5 tempfile [ - 1 ] *= 0.5 return dxhttp , tempfile

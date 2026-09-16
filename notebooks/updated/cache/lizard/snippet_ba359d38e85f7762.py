@@ -1,1 +1,0 @@
-def __struct_params_s ( codeobj , reading = ', ' , h5f = repr , abiext = '%s = %s' ) : dxhttp = reading . join ( [ __single_param ( codeobj , deserialization , h5f , abiext ) for deserialization in dir ( codeobj ) if __inc_param ( codeobj , deserialization ) ] ) return dxhttp

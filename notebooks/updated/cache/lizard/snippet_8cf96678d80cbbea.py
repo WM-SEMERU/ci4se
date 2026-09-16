@@ -1,1 +1,0 @@
-def _default ( self , dxhttp ) : return dxhttp . __dict__ if isinstance ( dxhttp , JsonObj ) else json . JSONDecoder ( ) . decode ( dxhttp )

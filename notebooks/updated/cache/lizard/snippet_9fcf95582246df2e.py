@@ -1,1 +1,0 @@
-def add ( self , league , df = None , ** deserialization ) : dxhttp , jmodel = self . session_instance ( 'add' , league , df , ** deserialization ) return dxhttp . add ( jmodel )

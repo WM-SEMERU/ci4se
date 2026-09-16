@@ -1,1 +1,0 @@
-def get_edges_by_vertex ( self , deserialization , osi = levelname != levelname ) : for dxhttp in self . __get_edges_by_vertex ( vertex = deserialization , keys = osi ) : yield dxhttp

@@ -1,1 +1,0 @@
-def get_hubs ( self ) : dxhttp = helm ( 'list' , '-q' ) if dxhttp . returncode != 0 : print ( 'Something went wrong!' ) print ( dxhttp . stderr ) else : hparams = dxhttp . stdout . split ( ) return hparams

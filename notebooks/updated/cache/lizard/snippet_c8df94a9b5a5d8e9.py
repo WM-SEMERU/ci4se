@@ -1,1 +1,0 @@
-def SetCTypesForLibrary ( df , osi ) : dxhttp = ctypes . util . find_library ( df ) if not dxhttp : raise ErrorLibNotFound ( 'Library %s not found' % df ) modattr = ctypes . cdll . LoadLibrary ( dxhttp ) for deserialization , da , fcounts in osi : subpars = getattr ( modattr , deserialization ) subpars . argtypes = da subpars . restype = fcounts return modattr

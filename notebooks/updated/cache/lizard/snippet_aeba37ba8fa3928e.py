@@ -1,1 +1,0 @@
-def set_revision_limit ( self , modattr ) : dxhttp = '/' . join ( ( self . abiext , '_revs_limit' ) ) simx = self . savefig . put ( dxhttp , data = json . dumps ( modattr , cls = self . subpars . encoder ) ) simx . raise_for_status ( ) return response_to_json_dict ( simx )

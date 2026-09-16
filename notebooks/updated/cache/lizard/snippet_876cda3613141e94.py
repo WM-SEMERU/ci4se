@@ -1,1 +1,0 @@
-def keys ( self ) : try : return self . dxhttp [ 'fields' ] except KeyError : if self . attached ( ) : self . jmodel . send ( ) while self . attached ( ) and 'fields' not in self . dxhttp : self . jmodel . fetch ( ) return self . dxhttp . get ( 'fields' )

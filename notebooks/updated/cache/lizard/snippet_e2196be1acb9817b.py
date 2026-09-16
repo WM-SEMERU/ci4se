@@ -1,5 +1,0 @@
-def disable_metrics_collection(self, as_group, metrics=None):
-    params = {'AutoScalingGroupName': as_group}
-    if metrics:
-        self.build_list_params(params, metrics, 'Metrics')
-    return self.get_status('DisableMetricsCollection', params)

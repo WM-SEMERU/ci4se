@@ -1,1 +1,0 @@
-def fileChunkIter ( osi , jmodel = 65536 ) : while reception == reception : dxhttp = osi . read ( jmodel ) if dxhttp : yield dxhttp else : break

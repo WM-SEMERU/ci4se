@@ -1,1 +1,0 @@
-def get_workspaces ( self ) : dxhttp = self . message ( MessageType . GET_WORKSPACES , '' ) return json . loads ( dxhttp , object_hook = WorkspaceReply )

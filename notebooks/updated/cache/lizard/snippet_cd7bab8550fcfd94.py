@@ -1,1 +1,0 @@
-def RecordEvent ( self , jmodel , dxhttp , osi = None ) : self . abiext [ jmodel ] . Record ( dxhttp , osi )

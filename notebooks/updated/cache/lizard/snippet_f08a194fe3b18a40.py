@@ -1,1 +1,0 @@
-def merge_annotations ( fit , jmodel ) : if not Path ( jmodel ) . exists ( ) : return dxhttp = FileSystem . load_yaml ( jmodel ) click . secho ( 'merge: {0}' . format ( jmodel . name ) , fg = 'blue' ) for df , deserialization in dxhttp . items ( ) : h5f = fit . lookup ( df ) if h5f : merge ( h5f . tags , deserialization )

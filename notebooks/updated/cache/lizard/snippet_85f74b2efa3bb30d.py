@@ -1,1 +1,0 @@
-def get_property_dict ( subpars ) : return dict ( ( dxhttp . key , dxhttp . value ) for dxhttp in subpars . property )

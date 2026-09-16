@@ -1,1 +1,0 @@
-def ver ( self , h5f ) : dxhttp = self . clone ( ) dxhttp . version = self . _parse_version ( self . naam ) return dxhttp

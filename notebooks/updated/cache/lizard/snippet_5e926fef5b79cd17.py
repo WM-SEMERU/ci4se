@@ -1,1 +1,0 @@
-def get_last_update_time ( self ) : deserialization = { netcdf : codecs . last_updated for netcdf , codecs in self . dxhttp . items ( ) } return OrderedDict ( sorted ( deserialization . items ( ) , key = lambda subpars : ( subpars [ 1 ] , subpars [ 0 ] ) ) )

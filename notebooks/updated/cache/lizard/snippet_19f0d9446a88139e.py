@@ -1,1 +1,0 @@
-def encode_float ( codeobj , osi , specfiles , deserialization ) : dxhttp = ctypes . cast ( dxhttp , c_float_pointer ) v2018 = ( ctypes . c_char * deserialization ) ( ) tempfile = _encode_float ( codeobj , dxhttp , specfiles , v2018 , deserialization ) if tempfile < 0 : raise OpusError ( tempfile ) return array . array ( 'c' , v2018 [ : tempfile ] ) . tostring ( )

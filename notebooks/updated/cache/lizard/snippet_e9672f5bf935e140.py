@@ -1,1 +1,0 @@
-def get_file ( self , da ) : dxhttp = self . get_file_meta ( da ) return self . get_vpkfile_instance ( da , dxhttp )

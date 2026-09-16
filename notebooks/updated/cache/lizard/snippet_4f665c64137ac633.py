@@ -1,3 +1,0 @@
-def stop(self, skip_final_snapshot=False, final_snapshot_id=''):
-    return self.connection.delete_dbinstance(self.id, skip_final_snapshot,
-        final_snapshot_id)

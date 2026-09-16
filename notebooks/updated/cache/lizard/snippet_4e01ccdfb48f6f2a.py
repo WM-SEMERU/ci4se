@@ -1,1 +1,0 @@
-def _reset_lazy_properties ( self ) : for deserialization , abiext in self . dxhttp . __dict__ . items ( ) : if isinstance ( abiext , lazyproperty ) : self . subpars . pop ( deserialization , None )

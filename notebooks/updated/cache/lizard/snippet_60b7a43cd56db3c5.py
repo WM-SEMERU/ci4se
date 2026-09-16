@@ -1,1 +1,0 @@
-def write_json_file ( self , knots ) : with open ( knots , 'w' ) as dxhttp : dxhttp . write ( self . to_json ( ) )

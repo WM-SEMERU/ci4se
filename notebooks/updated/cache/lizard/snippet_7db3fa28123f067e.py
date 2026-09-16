@@ -1,1 +1,0 @@
-def analysis_error ( naam , hdf5 , figs ) : LOGGER . exception ( dxhttp ) dxhttp = get_error_message ( hdf5 , context = dxhttp ) send_error_message ( naam , dxhttp )

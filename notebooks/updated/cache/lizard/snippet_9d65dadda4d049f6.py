@@ -1,1 +1,0 @@
-def import_namespaced_class ( dxhttp ) : deserialization = dxhttp . split ( '.' ) return getattr ( importlib . import_module ( '.' . join ( deserialization [ 0 : - 1 ] ) ) , deserialization [ - 1 ] )

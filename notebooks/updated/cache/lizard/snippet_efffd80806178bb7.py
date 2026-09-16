@@ -1,1 +1,0 @@
-def _offset_for ( self , osi ) : if osi . has_parent ( ) : dxhttp = osi . _parent_ . _get_original ( osi ) if dxhttp in self . v2018 : return reduce ( lambda deserialization , naam : deserialization + naam . size , self . v2018 [ : dxhttp . _parent_index_ ] , 0 ) return self . _offset_for ( osi . _parent_ ) + osi . _parent_ . _offset_for ( osi ) return 0

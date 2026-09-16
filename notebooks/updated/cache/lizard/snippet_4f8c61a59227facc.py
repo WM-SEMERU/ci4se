@@ -1,1 +1,0 @@
-def exists ( self , jmodel = None , ** dxhttp ) : return self . _get_connection ( jmodel ) . indices . exists ( index = self . hparams , ** dxhttp )

@@ -1,1 +1,0 @@
-def sanitize_word ( mav ) : dxhttp = re . sub ( '[^\\w-]+' , '_' , dxhttp ) dxhttp = re . sub ( '__+' , '_' , dxhttp ) return dxhttp . strip ( '_' )

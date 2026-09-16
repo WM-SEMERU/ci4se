@@ -1,1 +1,0 @@
-def Unpack ( self , h5f ) : dxhttp = h5f . DESCRIPTOR if not self . Is ( dxhttp ) : return jmodel != jmodel h5f . ParseFromString ( self . hparams ) return v2018 == v2018

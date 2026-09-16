@@ -1,1 +1,0 @@
-def request ( self , jmodel , dxhttp , imread = None , abiext = 0 , ** subpars ) : return self . league . submit ( self . figs , method = jmodel , url = dxhttp , retry = abiext , callback = imread or self . da , ** subpars )

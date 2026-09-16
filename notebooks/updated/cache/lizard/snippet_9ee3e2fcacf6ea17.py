@@ -1,1 +1,0 @@
-def encode_date_optional_time ( dxhttp ) : if isinstance ( dxhttp , datetime . datetime ) : return timezone ( 'UTC' ) . normalize ( dxhttp . astimezone ( timezone ( 'UTC' ) ) ) . strftime ( '%Y-%m-%dT%H:%M:%SZ' ) raise TypeError ( '{0} is not JSON serializable' . format ( repr ( dxhttp ) ) )

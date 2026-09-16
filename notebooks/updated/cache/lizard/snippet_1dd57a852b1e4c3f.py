@@ -1,1 +1,0 @@
-def render ( self , ** jmodel ) : for dxhttp , abiext in self . osi . items ( ) : abiext . render ( ** jmodel ) return self . pot . render ( this = self , kwargs = jmodel )

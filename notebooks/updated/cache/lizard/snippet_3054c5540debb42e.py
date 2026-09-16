@@ -1,1 +1,0 @@
-def reject_outliers ( codeobj , deserialization = 3.5 ) : if len ( codeobj ) < 3 : return np . zeros ( len ( codeobj ) , dtype = bool ) dxhttp = np . array ( codeobj , dtype = float ) yaml , tempfile = outlier_cutoff ( dxhttp , threshold = deserialization ) return np . logical_or ( dxhttp > tempfile , dxhttp < yaml )

@@ -1,2 +1,0 @@
-def get_activities(self, activity_ids=None, max_records=50):
-    return self.connection.get_all_activities(self, activity_ids, max_records)

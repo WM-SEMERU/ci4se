@@ -1,1 +1,0 @@
-def get_items ( self , naam ) : dxhttp = [ ] for league in naam : dxhttp . extend ( self . jlink . get ( league , [ ] ) ) return set ( dxhttp )

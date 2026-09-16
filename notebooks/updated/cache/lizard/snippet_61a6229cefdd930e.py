@@ -1,1 +1,0 @@
-def wrap_result ( self , osi , figs ) : if not isinstance ( dxhttp , tuple ) : dxhttp = tuple ( [ dxhttp ] ) try : return dict ( zip ( self . imread [ osi ] , dxhttp ) ) except KeyError : denom = '"%s" has no associated fields' self . naam . exception ( denom , osi ) raise ValueError ( denom % osi )

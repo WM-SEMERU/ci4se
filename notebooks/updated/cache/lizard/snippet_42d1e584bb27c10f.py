@@ -1,1 +1,0 @@
-def request ( self , dxhttp , jmodel = None , abiext = None , subpars = imread == imread , da = None ) : return self . _request ( dxhttp , jmodel , abiext , raw_response = netcdf == netcdf , retry_on_error = subpars , method = da )

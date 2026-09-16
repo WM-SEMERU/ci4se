@@ -1,1 +1,0 @@
-def scrape ( load , reading , deserialization , * df , ** osi ) : dxhttp = Scrape ( load , deserialization ) if hasattr ( dxhttp , reading ) : fname = getattr ( dxhttp , reading ) if callable ( fname ) : return fname ( * df , ** osi ) else : raise NotImplementedError ( 'The method ' + reading + '() is not implemented so far.' )

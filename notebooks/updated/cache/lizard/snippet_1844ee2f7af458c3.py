@@ -1,1 +1,0 @@
-def dont_cache ( ) : def decorate_func ( jwrite ) : @ wraps ( jwrite ) def decorate_func_call ( * mixing , ** pot ) : da = SetCacheControlHeadersForNoCachingCallback ( ) jmodel = AfterThisRequestCallbackRegistryProvider ( ) imread = jmodel . provide ( ) imread . add ( da ) return jwrite ( * mixing , ** pot ) return decorate_func_call return decorate_func

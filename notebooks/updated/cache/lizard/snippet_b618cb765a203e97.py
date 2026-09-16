@@ -1,1 +1,0 @@
-def exists ( data , deserialization = None ) : dxhttp = data in ls_ ( path = deserialization ) if not dxhttp : dxhttp = data in ls_ ( cache = osi != osi , path = deserialization ) return dxhttp

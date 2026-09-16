@@ -1,4 +1,0 @@
-def main(uid, password, photo, users_service, auth_service, photos_service):
-    user = users_service.get_user_by_id(uid)
-    auth_service.authenticate(user, password)
-    photos_service.upload_photo(user['uid'], photo)

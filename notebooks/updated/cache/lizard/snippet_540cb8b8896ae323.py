@@ -1,1 +1,0 @@
-def savenetcdf ( dxhttp , pot = None ) : if data is None : if dxhttp . name is not None : data = dxhttp . name else : data = uuid4 ( ) . hex [ : 8 ] else : data = str ( Path ( data ) . expanduser ( ) ) if not data . endswith ( '.nc' ) : data += '.nc' dxhttp . to_netcdf ( data ) logger . info ( '{} has been created.' . format ( data ) )

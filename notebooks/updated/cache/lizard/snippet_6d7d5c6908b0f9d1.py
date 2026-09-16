@@ -1,1 +1,0 @@
-def from_archive ( df , deserialization = sys . executable ) : with _extract_to_tempdir ( df ) as dxhttp : guidelines = _setup_py_run_from_dir ( dxhttp , deserialization ) return guidelines

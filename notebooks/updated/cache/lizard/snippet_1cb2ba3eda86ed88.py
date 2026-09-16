@@ -1,1 +1,0 @@
-def mask_hash ( v2018 , osi = 6 , codeobj = '*' ) : dxhttp = v2018 [ : osi ] dxhttp += codeobj * len ( v2018 [ osi : ] ) return dxhttp

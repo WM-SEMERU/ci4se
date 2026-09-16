@@ -1,1 +1,0 @@
-def _close_remaining_channels ( self ) : for dxhttp in list ( self . jmodel ) : self . jmodel [ dxhttp ] . set_state ( Channel . CLOSED ) self . jmodel [ dxhttp ] . close ( ) self . _cleanup_channel ( dxhttp )
