@@ -1,8 +1,8 @@
-# Causal Inference Tutorial: Backdoor Defense
+# Causal Inference Tutorial
 
-This tutorial uses a backdoor-defense example to teach the difference between **correlation** and **causation**.
+This tutorial shows how to move from observed data to a causal estimate.
 
-Run the notebooks in order:
+The tutorial uses a backdoor defense example and is organized into three notebooks:
 
 ```text
 00_data_preparation.ipynb
@@ -12,220 +12,52 @@ Run the notebooks in order:
 02_causal_inference.ipynb
 ```
 
-Each notebook answers a different question:
-
-| Notebook | Main question |
-|---|---|
-| 00 — Data preparation | **What was observed for each unit?** |
-| 01 — Correlational analysis | **What patterns are visible in the observed data?** |
-| 02 — Causal inference | **To what extent does treatment cause outcome?** |
-
----
-
-## The causal question
-
-The central causal question is:
-
-> **To what extent does `treatment` cause a change in `outcome`?**
-
-In the backdoor-defense setting:
+The causal question is:
 
 > **To what extent does applying the backdoor defense, instead of baseline random filtering, cause the probability of successful backdoor detection to change?**
 
-### Treatment
+The notebooks use `treatment` and `outcome` as column names:
 
-`treatment` is binary:
+- `treatment = 0`: baseline random filtering;
+- `treatment = 1`: backdoor defense;
+- `outcome = 0`: detection failed;
+- `outcome = 1`: detection succeeded.
 
-| Value | Meaning |
-|---|---|
-| `0` | **Random filtering** — the baseline/control condition |
-| `1` | **Backdoor defense** — the dedicated defense is applied |
+In this tutorial:
 
-The tutorial does not depend on the implementation details of a particular defense algorithm. The treatment variable represents the contrast between **using the dedicated backdoor defense** and **using the baseline random-filtering procedure**.
+| Variable | Value | Meaning |
+|---|---:|---|
+| `treatment` | `0` | Random filtering is used |
+| `treatment` | `1` | The backdoor defense is used |
+| `outcome` | `0` | Detection failed |
+| `outcome` | `1` | Detection succeeded |
 
-### Outcome
+The average of `outcome` is the **Detection Success Rate**, or **DSR**.
 
-`outcome` is also binary:
-
-| Value | Meaning |
-|---|---|
-| `0` | the backdoor was **not detected successfully** |
-| `1` | the backdoor was **detected successfully** |
-
-The mean of `outcome` is the **Detection Success Rate (DSR)**.
-
-For example, if 70% of units have `outcome = 1`, then the DSR is `0.70` or 70%.
+The causal effect compares detection success under the backdoor defense with detection success under random filtering.
 
 ---
 
-## What does “causal effect” mean here?
+# Tutorial structure
 
-For each unit, imagine two potential outcomes:
+## 00 — Data preparation
 
-- **Y(1):** detection success if the backdoor defense were applied;
-- **Y(0):** detection success if random filtering were used instead.
-
-We never observe both for the same unit. We observe only the outcome under the treatment that the unit actually received.
-
-The tutorial targets the **Average Treatment Effect (ATE)**:
-
-```text
-ATE = E[Y(1) - Y(0)]
-```
-
-Because the outcome is binary, the ATE is a difference in detection-success probability.
-
-For example:
-
-```text
-ATE = 0.10
-```
-
-means an estimated **10 percentage-point increase in detection success rate** caused by using the backdoor defense rather than random filtering, on average.
-
-That is the quantity notebook 02 tries to estimate.
-
----
-
-## What is real and what is synthetic?
-
-The raw data contain code/docstring examples that provide realistic variation in software characteristics.
-
-For this teaching exercise, the following are synthetic:
-
-- assignment to random filtering or backdoor defense;
-- detection success/failure;
-- several context/process variables used to create different causal structures.
-
-This is deliberate. A synthetic data-generating process lets us know the true causal graph and true ATE, so after completing the analysis we can compare our reasoning with the answer.
-
-The generated values should therefore be interpreted as a **teaching study**, not as empirical evidence about the effectiveness of a real backdoor-defense system.
-
----
-
-## Do not reveal the answer too early
-
-The project contains:
-
-```text
-data/synthetic_ground_truth_edges.csv
-```
-
-Notebook 00 also generates:
-
-```text
-data/synthetic_study_metadata.json
-```
-
-These files contain information used in the final reveal.
-
-**Do not inspect them before the reveal section in notebook 02** if you want to complete the causal-graph exercise yourself.
-
-The implementation in `src/causal_data_prep.py` also contains the synthetic generator, so avoid reading that implementation until after the exercise if you want the full challenge.
-
----
-
-# Project structure
-
-```text
-ci4se-master/
-│
-├── 00_data_preparation.ipynb
-├── 01_correlational_analysis.ipynb
-├── 02_causal_inference.ipynb
-├── README.md
-├── requirements.txt
-│
-├── data/
-│   ├── raw_code.csv
-│   └── synthetic_ground_truth_edges.csv
-│
-├── cache/
-│
-├── slides/
-│   └── Causal_interpretability.pdf
-│
-└── src/
-    ├── __init__.py
-    ├── causal_data_prep.py
-    ├── correlational_analysis_utils.py
-    ├── causal_graph_ui.py
-    └── causal_tutorial_utils.py
-```
-
-The notebooks are the student-facing learning material. The `src/` folder keeps implementation details out of the main narrative.
-
-The slide deck is optional background material and is not required to run the notebooks.
-
----
-
-# Setup
-
-From the project directory, create a virtual environment:
-
-```bash
-python -m venv .venv
-```
-
-Activate it.
-
-### macOS or Linux
-
-```bash
-source .venv/bin/activate
-```
-
-### Windows PowerShell
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-Install the dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-Start Jupyter:
-
-```bash
-jupyter lab
-```
-
-Then run the notebooks in numerical order.
-
-The causal-inference notebook targets **DoWhy 0.14**.
-
----
-
-# 00 — Data Preparation
-
-Open:
+Notebook:
 
 ```text
 00_data_preparation.ipynb
 ```
 
-## Goal
+This notebook prepares the data used in the rest of the tutorial.
 
-Create a valid unit-level dataset for the backdoor-defense causal study.
+It:
 
-Each row represents one software example with:
-
-- one observed treatment;
-- one observed detection outcome;
-- measured variables that may be relevant to the causal graph.
-
-## What happens in this notebook?
-
-The notebook:
-
-1. loads the code/docstring examples;
-2. extracts readable code features such as token count and cyclomatic complexity;
-3. generates the synthetic observational backdoor-defense study;
-4. validates the resulting causal table;
-5. saves the dataset used by the next notebooks.
+1. loads the code and docstring data;
+2. extracts numeric features from the code;
+3. creates the treatment and outcome used in the tutorial;
+4. creates additional variables used in the causal example;
+5. checks the resulting data;
+6. saves the data for the next notebooks.
 
 The output is:
 
@@ -233,71 +65,74 @@ The output is:
 data/causal_data.csv
 ```
 
-## Important idea
+Each row represents one software example.
 
-Each unit appears **once** with one observed treatment and one observed outcome.
+Each example has:
 
-We do not duplicate a unit under both treatment conditions. The unobserved alternative is a **counterfactual**.
+- one observed treatment;
+- one observed outcome;
+- measured variables that may be relevant to the causal analysis.
 
-## Transition to notebook 01
+For one example, we observe either:
 
-After notebook 00, we know:
+```text
+treatment = 0
+```
 
-> **what was observed.**
+or:
 
-We still do not know:
+```text
+treatment = 1
+```
 
-> **which observed relationships are causal.**
+We do not observe the same example under both treatments.
 
-Notebook 01 explores those relationships without making causal claims.
+This is why causal inference is needed.
 
 ---
 
-# 01 — Correlational Analysis
+# 01 — Correlational analysis
 
-Open:
+Notebook:
 
 ```text
 01_correlational_analysis.ipynb
 ```
 
-## Goal
+This notebook explores relationships in the data prepared by notebook 00.
 
-Understand the observed data before constructing the causal graph.
+It examines:
 
-The notebook examines:
-
-- the raw DSR under random filtering and backdoor defense;
-- pairwise correlations;
-- treatment-group imbalance;
+- the DSR under random filtering;
+- the DSR under backdoor defense;
+- correlations among variables;
+- differences between the two treatment groups;
 - standardized mean differences;
 - association with treatment;
 - association with outcome;
 - selected pairwise relationships.
 
-All plots use **Seaborn**.
+All plots use Seaborn.
 
-## The most important rule
+The purpose of this notebook is to understand the observed data before building the causal graph.
 
-A variable associated with both treatment and outcome is **not automatically a confounder**.
+A variable that is associated with both treatment and outcome is not automatically a confounder.
 
-The observed pattern
+For example, this pattern:
 
 ```text
 X is associated with treatment
 X is associated with outcome
 ```
 
-can arise from several different causal structures.
-
-For example:
+could be produced by:
 
 ```text
 X → treatment
 X → outcome
 ```
 
-is one possibility, but so is:
+but it could also be produced by:
 
 ```text
 treatment → X → outcome
@@ -309,61 +144,41 @@ or:
 treatment → X ← outcome
 ```
 
-The correlations alone cannot tell us which graph is correct.
+Correlation alone cannot tell us which structure is correct.
 
-## Why timing matters
+The notebook therefore also considers when variables are measured and whether they occur before or after treatment.
 
-Notebook 01 explicitly distinguishes variables known **before treatment** from variables measured **after treatment**.
-
-This is causal knowledge from the study design, not something estimated from the correlation matrix.
-
-A post-treatment variable should not be treated as an ordinary baseline confounder simply because it is strongly associated with treatment and outcome.
-
-## The DAG worksheet
-
-Notebook 01 creates:
+At the end of the notebook, it creates:
 
 ```text
 data/dag_worksheet.csv
 ```
 
-The worksheet contains statistical evidence and known timing, plus blank fields for:
+The worksheet contains the statistical results and space to record:
 
-- proposed causal role;
-- proposed edges;
-- domain justification.
+- a proposed causal role;
+- proposed graph edges;
+- a reason for each proposed edge.
 
-For every proposed edge, try to complete the sentence:
-
-> **I believe A causes B because ...**
-
-“Because A and B are correlated” is not enough.
-
-## Transition to notebook 02
-
-Notebook 01 answers:
-
-> **What patterns are visible?**
-
-Notebook 02 asks:
-
-> **What causal structure could explain those patterns, and what does it imply about the effect of treatment on outcome?**
+The worksheet is used in notebook 02.
 
 ---
 
-# 02 — Causal Inference
+# 02 — Causal inference
 
-Open:
+Notebook:
 
 ```text
 02_causal_inference.ipynb
 ```
 
-## Goal
+This notebook uses the data and the worksheet from the first two notebooks.
 
-Estimate the causal effect of backdoor defense on detection success.
+The goal is to estimate:
 
-The workflow is:
+> **To what extent does applying the backdoor defense, instead of baseline random filtering, cause the probability of successful backdoor detection to change?**
+
+The notebook follows this sequence:
 
 ```text
 causal assumptions
@@ -377,107 +192,277 @@ estimation
 refutation
 ```
 
-## Step 1: Build the DAG
+## Build the DAG
 
-The interactive graph starts with:
+The graph begins with:
 
 ```text
 treatment → outcome
 ```
 
-This arrow represents the causal effect we want to study.
+This edge represents the causal effect that we want to study.
 
-Use the worksheet, temporal ordering, and plausible mechanisms to decide what other edges belong in the graph.
+You then decide which additional edges belong in the graph.
 
-The node colors represent structural roles. The default graph palette is Seaborn's **`colorblind`** categorical palette so different roles are easy to distinguish.
+Use:
 
-## Step 2: Identification
+- the results from notebook 01;
+- the timing of each variable;
+- knowledge about how the variables could affect one another.
 
-DoWhy asks:
+Do not add an edge only because two variables are correlated.
 
-> **If this DAG is correct, can the effect of treatment on outcome be expressed using the observed data?**
+For every proposed edge:
 
-Identification determines **what** should be estimated.
+```text
+A → B
+```
 
-## Step 3: Estimation
+ask:
 
-The tutorial uses inverse propensity-score weighting to estimate the ATE.
+1. Does A occur before B?
+2. Can A plausibly change B?
+3. Could the observed relationship have another explanation?
 
-An estimated ATE should always be interpreted in the original domain:
+The graph interface uses different colors to show different graph roles.
 
-> **How many percentage points does the backdoor defense change detection success, on average, relative to random filtering?**
+The roles come from the graph that you build.
 
-## Step 4: Refutation
+They are not inferred from the correlation matrix.
 
-The tutorial runs selected robustness checks, including:
+---
+
+# Identification
+
+After the DAG is frozen, DoWhy checks whether the causal effect can be identified from the observed data.
+
+Identification asks:
+
+> **If this DAG is correct, what quantity in the observed data corresponds to the effect of using the backdoor defense instead of random filtering on successful detection?**
+
+The tutorial uses the **Average Treatment Effect**, or **ATE**.
+
+```text
+ATE = E[Y(1) - Y(0)]
+```
+
+Here:
+
+```text
+Y(1)
+```
+
+is the detection result if the backdoor defense is used.
+
+```text
+Y(0)
+```
+
+is the detection result if random filtering is used.
+
+The ATE compares these two conditions on average.
+
+---
+
+# Estimation
+
+The tutorial estimates the ATE using inverse propensity score weighting. Here, the ATE measures the average change in detection success caused by using the backdoor defense instead of random filtering.
+
+For a binary outcome, the result can be interpreted as a change in detection probability.
+
+For example:
+
+```text
+Estimated ATE = 0.08
+```
+
+means:
+
+> The backdoor defense is estimated to increase the probability of successful detection by about 8 percentage points on average compared with random filtering.
+
+If the estimate is negative, the backdoor defense is estimated to reduce detection success.
+
+---
+
+# Refutation
+
+The tutorial runs checks that test how stable the estimate is.
+
+These include:
 
 - placebo treatment;
 - random common cause.
 
-These checks can reveal fragile estimates, but passing them does **not** prove that the DAG is correct or that all unmeasured confounding is absent.
+These checks can reveal problems with an estimate.
 
-## Step 5: Reveal the synthetic truth
+They do not prove that the causal graph is correct.
 
-Only after you freeze your DAG and estimate the effect does the notebook reveal:
-
-- the DAG used to generate the synthetic study;
-- the known synthetic ATE;
-- missing and extra edges in your proposed graph.
-
-This is where the main lesson becomes concrete.
+They also do not prove that every important variable has been measured.
 
 ---
 
-# The three levels of reasoning
+# Reveal
 
-The tutorial deliberately separates three kinds of statements.
+The tutorial includes a synthetic causal process so that the correct graph and causal effect are known.
 
-## 1. Measurement
+The project contains:
+
+```text
+data/synthetic_ground_truth_edges.csv
+```
+
+Notebook 00 also creates:
+
+```text
+data/synthetic_study_metadata.json
+```
+
+Do not inspect these files before the reveal section in notebook 02 if you want to complete the graph exercise first.
+
+At the end of notebook 02, you compare:
+
+```text
+your proposed graph
+```
+
+with:
+
+```text
+the graph used to create the synthetic data
+```
+
+You also compare your estimated ATE with the known synthetic ATE.
+
+This makes it possible to see which conclusions could and could not be reached from correlation alone.
+
+---
+
+# What the tutorial demonstrates
+
+The tutorial separates three different ideas.
+
+## Measurement
 
 ```text
 code_complexity = 4
 ```
 
-This records what was observed.
+This is an observed value.
 
-## 2. Association
+## Association
 
 ```text
-code_complexity is associated with treatment and outcome
+code_complexity is associated with treatment
 ```
 
-This describes a pattern in the observed data.
+This describes a pattern in the data.
 
-## 3. Causal claim
+## Causal claim
 
 ```text
 code_complexity → treatment
-code_complexity → outcome
 ```
 
-This is an assumption about how the data were generated.
+This says that code complexity affects treatment assignment.
 
-The third statement does **not** follow automatically from the second.
+An association does not automatically imply the causal claim.
 
-That distinction is the core of the tutorial.
+The causal graph makes these assumptions explicit.
 
 ---
 
-# Recommended student workflow
+# Tutorial sequence
 
-1. Run `00_data_preparation.ipynb` from top to bottom.
-2. Do not inspect the hidden synthetic DAG or generator.
-3. Run `01_correlational_analysis.ipynb`.
-4. Study the plots and fill in the DAG worksheet.
-5. Run `02_causal_inference.ipynb`.
-6. Build and freeze your proposed DAG.
-7. Identify and estimate the ATE.
-8. Run the refutation checks.
-9. Reveal the synthetic DAG and true ATE.
-10. Compare what correlation suggested with what the causal data-generating process actually was.
+Run the tutorial in this order:
 
-A good final question to ask yourself is:
+1. Open `00_data_preparation.ipynb`.
+2. Run the notebook from top to bottom.
+3. Open `01_correlational_analysis.ipynb`.
+4. Study the plots and tables.
+5. Complete the DAG worksheet.
+6. Open `02_causal_inference.ipynb`.
+7. Build the causal graph.
+8. Freeze the graph.
+9. Identify the causal effect.
+10. Estimate the ATE.
+11. Run the refutation checks.
+12. Reveal the synthetic graph and known ATE.
+13. Compare the proposed graph with the graph used to create the data.
 
-> **Which mistakes would I have made if I had selected adjustment variables using correlation alone?**
+---
 
-If you can answer that clearly, you have understood the central lesson of the tutorial.
+# Project files
+
+```text
+ci4se-backdoor-defense-tutorial/
+│
+├── 00_data_preparation.ipynb
+├── 01_correlational_analysis.ipynb
+├── 02_causal_inference.ipynb
+├── README.md
+├── requirements.txt
+│
+├── data/
+│   ├── raw_code.csv
+│   └── synthetic_ground_truth_edges.csv
+│
+├── slides/
+│   └── Causal_interpretability.pdf
+│
+└── src/
+    ├── __init__.py
+    ├── causal_data_prep.py
+    ├── correlational_analysis_utils.py
+    ├── causal_graph_ui.py
+    └── causal_tutorial_utils.py
+```
+
+The notebooks contain the tutorial.
+
+The files in `src/` contain supporting Python code.
+
+The slides are optional.
+
+---
+
+# Setup
+
+From the project directory:
+
+```bash
+python -m venv .venv
+```
+
+Activate the environment.
+
+On macOS or Linux:
+
+```bash
+source .venv/bin/activate
+```
+
+On Windows PowerShell:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+Install the required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+Start Jupyter:
+
+```bash
+jupyter lab
+```
+
+Then begin with:
+
+```text
+00_data_preparation.ipynb
+```
+
+The causal inference notebook uses DoWhy 0.14.
