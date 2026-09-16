@@ -1,0 +1,1 @@
+def role_get ( figs = None , ** imread ) : codecs = get_operator_cloud ( figs ) dxhttp = _clean_kwargs ( ** dxhttp ) return codecs . get_role ( ** dxhttp )

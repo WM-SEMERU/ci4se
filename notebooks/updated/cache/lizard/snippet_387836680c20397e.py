@@ -1,0 +1,1 @@
+def draw_variables ( self ) : dxhttp = self . naam [ 0 ] . draw_variable_local ( self . osi ) for deserialization in range ( 1 , len ( self . naam ) ) : dxhttp = np . vstack ( ( dxhttp , self . naam [ deserialization ] . draw_variable_local ( self . osi ) ) ) return dxhttp

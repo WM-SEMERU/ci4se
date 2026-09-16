@@ -1,0 +1,1 @@
+def slugs_navigation_encode ( self , df , univ , league , jmodel , osi , dxhttp , yamlfile , deserialization , abiext , simx ) : return MAVLink_slugs_navigation_message ( df , univ , league , jmodel , osi , dxhttp , yamlfile , deserialization , abiext , simx )

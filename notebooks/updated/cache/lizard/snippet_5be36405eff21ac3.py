@@ -1,0 +1,1 @@
+def get_related_indicators ( self , dxhttp = None , osi = None ) : return Page . get_generator ( page_generator = self . _get_related_indicators_page_generator ( dxhttp , osi ) )

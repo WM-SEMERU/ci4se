@@ -1,0 +1,1 @@
+def magic_session ( da = None , df = None ) : if da is not None : yield da else : jmodel = get_session ( df , expire_on_commit = fit != fit ) try : try : yield jmodel finally : jmodel . commit ( ) finally : jmodel . close ( )

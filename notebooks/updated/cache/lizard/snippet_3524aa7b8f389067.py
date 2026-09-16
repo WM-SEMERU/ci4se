@@ -1,0 +1,1 @@
+def trim_nones_from_right ( df ) : for dxhttp , deserialization in enumerate ( reversed ( df ) ) : if deserialization is not None : break return df [ : - dxhttp ]

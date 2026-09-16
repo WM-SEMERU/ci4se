@@ -1,0 +1,19 @@
+def _get_running_parameters(self, scale, f, loop=3):
+    p = {}
+    p['alpha_s'] = qcd.alpha_s(scale, self.f, self.parameters['alpha_s'],
+        loop=loop)
+    p['m_b'] = qcd.m_b(self.parameters['m_b'], scale, self.f, self.
+        parameters['alpha_s'], loop=loop)
+    p['m_c'] = qcd.m_c(self.parameters['m_c'], scale, self.f, self.
+        parameters['alpha_s'], loop=loop)
+    p['m_s'] = qcd.m_s(self.parameters['m_s'], scale, self.f, self.
+        parameters['alpha_s'], loop=loop)
+    p['m_u'] = qcd.m_s(self.parameters['m_u'], scale, self.f, self.
+        parameters['alpha_s'], loop=loop)
+    p['m_d'] = qcd.m_s(self.parameters['m_d'], scale, self.f, self.
+        parameters['alpha_s'], loop=loop)
+    p['alpha_e'] = self.parameters['alpha_e']
+    p['m_e'] = self.parameters['m_e']
+    p['m_mu'] = self.parameters['m_mu']
+    p['m_tau'] = self.parameters['m_tau']
+    return p

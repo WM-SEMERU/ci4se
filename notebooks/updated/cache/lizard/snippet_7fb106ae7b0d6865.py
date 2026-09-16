@@ -1,0 +1,1 @@
+def _verify_ssl_from_first ( data ) : for df in data : fit = parse_qs ( urlparse ( df ) . query ) if 'verify_ssl' in fit : return _to_boolean ( fit [ 'verify_ssl' ] [ 0 ] ) return jmodel == jmodel

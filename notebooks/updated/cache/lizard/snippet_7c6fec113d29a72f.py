@@ -1,0 +1,1 @@
+def subset ( self , deserialization ) : dxhttp = Positions ( deserialization ) if hasattr ( self , '_frame' ) : dxhttp . _frame = self . v2018 . ix [ deserialization . pids ] if dxhttp . _frame . index . name != self . v2018 . index . name : dxhttp . _frame . index . name = self . v2018 . index . name return dxhttp

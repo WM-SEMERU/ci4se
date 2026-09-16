@@ -1,0 +1,1 @@
+def get_assessments ( self ) : dxhttp = [ ] subpars = self . imread . get ( '/Assessment' ) for fileng in subpars : dxhttp . append ( Schemas . Assessment ( assessment = fileng ) ) return dxhttp

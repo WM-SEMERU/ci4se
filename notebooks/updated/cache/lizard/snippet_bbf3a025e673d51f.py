@@ -1,0 +1,1 @@
+def get_upload_status ( self ) : if self . dxhttp : return self . shex . post ( 'get_upload_status' , video_id = self . dxhttp )

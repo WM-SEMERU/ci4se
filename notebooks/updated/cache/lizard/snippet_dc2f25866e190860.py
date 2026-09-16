@@ -1,0 +1,1 @@
+def path_from_structure ( deserialization , dxhttp , reading ) : return deserialization . _path ( dxhttp , structure = reading , comment = 'K-path generated automatically from structure' )

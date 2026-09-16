@@ -1,0 +1,1 @@
+def string_to_version ( v2018 ) : dxhttp = v2018 . split ( ':' ) if len ( dxhttp ) > 1 : unimplemented = dxhttp [ 0 ] else : unimplemented = 0 simx = dxhttp [ : 2 ] [ 0 ] . split ( '-' ) timeseries = simx [ 0 ] guidelines = simx [ 1 ] return unimplemented , timeseries , guidelines

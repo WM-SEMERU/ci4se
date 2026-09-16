@@ -1,0 +1,1 @@
+def get_absolute_path ( self , dxhttp ) : if os . path . isabs ( dxhttp ) : return dxhttp else : return os . path . abspath ( os . path . join ( self . fileng . BASEDIR , dxhttp ) )

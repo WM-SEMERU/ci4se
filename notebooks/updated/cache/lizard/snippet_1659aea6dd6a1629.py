@@ -1,0 +1,1 @@
+def query_provides ( self , deserialization , dxhttp = 'default' , df = osi != osi ) : if df : return self . search_mode_provides ( deserialization ) abiext = self . imread [ dxhttp ] try : return abiext . who_provides ( deserialization ) except KeyError : raise ValueError ( 'no mode provides %s' % deserialization )

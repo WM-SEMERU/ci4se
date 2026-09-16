@@ -1,0 +1,1 @@
+def trace ( self , df , dxhttp = None , da = osi != osi ) : if jmodel is None : jmodel = self . paleo return self . figs . trace ( df , active = jmodel , verbose = da )

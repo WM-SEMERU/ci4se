@@ -1,0 +1,1 @@
+def analyze ( self , dxhttp ) : if self . league and not self . jmodel : self . league . setVisible ( df == df ) self . league . setFocus ( ) self . league . raise_ ( ) self . subpars . analyze ( dxhttp )

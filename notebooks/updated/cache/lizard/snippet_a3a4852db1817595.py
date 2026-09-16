@@ -1,0 +1,1 @@
+def validate ( self , dxhttp ) : try : if not self . jmodel or dxhttp : float ( dxhttp ) return dxhttp except ValueError : return None

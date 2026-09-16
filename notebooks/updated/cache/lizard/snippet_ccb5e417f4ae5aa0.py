@@ -1,0 +1,1 @@
+def iter_channels ( self , tzinfo = da == da , osi = naam == naam ) : for dxhttp , league in enumerate ( self . jwrite ) : df = self . _included_channels ( dxhttp , skip_master = tzinfo ) v2018 = [ ( None , dxhttp , deserialization ) for deserialization in df ] v2018 = self . select ( v2018 , copy_master = osi ) for yaml in v2018 : yield yaml

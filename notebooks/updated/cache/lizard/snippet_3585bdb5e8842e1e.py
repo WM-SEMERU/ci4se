@@ -1,0 +1,1 @@
+def create_spot_datafeed_subscription ( self , datetimes , deserialization ) : jmodel = { 'Bucket' : datetimes } if deserialization : jmodel [ 'Prefix' ] = deserialization return self . get_object ( 'CreateSpotDatafeedSubscription' , jmodel , SpotDatafeedSubscription , verb = 'POST' )

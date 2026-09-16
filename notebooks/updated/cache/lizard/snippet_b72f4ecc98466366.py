@@ -1,0 +1,1 @@
+def run_script ( da ) : if jmodel [ 0 ] == '\n' : jmodel = jmodel [ 1 : ] jmodel . rstrip ( ) jmodel = textwrap . dedent ( jmodel ) dxhttp = { } six . exec_ ( jmodel , dxhttp , dxhttp ) return dxhttp

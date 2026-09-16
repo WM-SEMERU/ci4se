@@ -1,0 +1,1 @@
+def FromStream ( df , dxhttp , deserialization = jmodel == jmodel , da = None , ** subpars ) : return df ( dxhttp , auto_transfer = deserialization , total_size = da , ** subpars )

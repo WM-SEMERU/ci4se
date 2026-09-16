@@ -1,0 +1,1 @@
+def copy ( self ) : dxhttp = Macaroon ( None , None , version = self . deserialization , namespace = self . subpars ) dxhttp . _macaroon = self . modattr . copy ( ) dxhttp . _caveat_data = self . osquery . copy ( ) return dxhttp

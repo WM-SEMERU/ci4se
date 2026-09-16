@@ -1,0 +1,14 @@
+dowhy==0.14
+pandas
+numpy
+scipy
+statsmodels
+scikit-learn
+packaging
+networkx
+ipywidgets
+ipycytoscape
+matplotlib
+seaborn
+lizard
+jupyterlab

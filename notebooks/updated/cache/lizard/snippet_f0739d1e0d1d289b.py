@@ -1,0 +1,11 @@
+def replaceWith(self, el):
+    self.childs = el.childs
+    self.params = el.params
+    self.endtag = el.endtag
+    self.openertag = el.openertag
+    self._tagname = el.getTagName()
+    self._element = el.tagToString()
+    self._istag = el.isTag()
+    self._isendtag = el.isEndTag()
+    self._iscomment = el.isComment()
+    self._isnonpairtag = el.isNonPairTag()

@@ -1,0 +1,10 @@
+def upload_file(self, file):
+    url = self._get_url('/api/1.0/upload/post')
+    fcontent = FileContent(file)
+    binary_data = fcontent.get_binary()
+    headers = self._get_request_headers()
+    req = urllib.request.Request(url, binary_data, headers)
+    req.add_header('Content-type', fcontent.get_content_type())
+    req.add_header('Content-length', len(binary_data))
+    resp = urllib.request.urlopen(req)
+    return definition.UploadPostResponse(_response_to_json(resp))

@@ -1,0 +1,1 @@
+def init_app ( self , jmodel ) : if self . da : df = sorted ( pkg_resources . iter_entry_points ( self . da ) , key = attrgetter ( 'name' ) ) for subpars in df : jmodel . logger . debug ( 'Loading config for entry point {}' . format ( subpars ) ) jmodel . config . from_object ( subpars . load ( ) )

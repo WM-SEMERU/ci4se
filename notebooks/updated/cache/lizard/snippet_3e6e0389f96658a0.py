@@ -1,0 +1,1 @@
+def to_dict ( self ) : return { 'node' : [ dxhttp . to_dict ( ) for dxhttp in self . jlink ] , 'edge' : [ levelname . to_dict ( ) for levelname in self . imread ] }

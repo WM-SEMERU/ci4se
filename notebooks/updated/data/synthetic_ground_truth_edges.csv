@@ -1,0 +1,14 @@
+source,target,reason,source_role
+code_number_tokens,treatment,larger code increases intervention use,confounder
+code_number_tokens,output,larger code makes successful documentation harder,confounder
+code_complexity,treatment,more complex code increases intervention use,confounder
+code_complexity,output,more complex code makes the outcome harder,confounder
+developer_experience,treatment,experience influences intervention uptake,confounder
+developer_experience,output,experience improves documentation success,confounder
+rollout_eligibility,treatment,eligibility encourages intervention use,instrument_candidate
+code_num_strings,output,string-heavy code affects documentation difficulty,outcome_predictor
+treatment,docstring_detail_score,the intervention increases documentation detail,treatment
+docstring_detail_score,output,more detailed documentation improves success,mediator
+treatment,output,the intervention also has a direct effect,treatment
+treatment,review_flag,intervention use changes review probability,treatment
+output,review_flag,the observed outcome also changes review probability,outcome

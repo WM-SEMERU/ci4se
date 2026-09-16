@@ -1,0 +1,1 @@
+def retrieve_secret_id ( df , parquet ) : import hvac dxhttp = hvac . Client ( url = df , token = parquet ) subpars = dxhttp . _post ( '/v1/sys/wrapping/unwrap' ) if subpars . status_code == 200 : conteudo = subpars . json ( ) return conteudo [ 'data' ] [ 'secret_id' ]

@@ -1,0 +1,33 @@
+def _generate_struct_class_h(self, struct):
+    self._generate_init_imports_h(struct)
+    self._generate_imports_h(self._get_imports_h(struct))
+    self.emit()
+    self.emit('NS_ASSUME_NONNULL_BEGIN')
+    self.emit()
+    self.emit('#pragma mark - API Object')
+    self.emit()
+    self._generate_class_comment(struct)
+    struct_name = fmt_class_prefix(struct)
+    with self.block_h_from_data_type(struct, protocol=['DBSerializable',
+        'NSCopying']):
+        self.emit('#pragma mark - Instance fields')
+        self.emit()
+        self._generate_struct_properties(struct.fields)
+        self.emit('#pragma mark - Constructors')
+        self.emit()
+        self._generate_struct_cstor_signature(struct)
+        self._generate_struct_cstor_signature_default(struct)
+        self._generate_init_unavailable_signature(struct)
+    self.emit()
+    self.emit()
+    self.emit('#pragma mark - Serializer Object')
+    self.emit()
+    self.emit(comment_prefix)
+    self.emit_wrapped_text('The serialization class for the `{}` struct.'.
+        format(fmt_class(struct.name)), prefix=comment_prefix)
+    self.emit(comment_prefix)
+    with self.block_h(fmt_serial_class(struct_name)):
+        self._generate_serializer_signatures(struct_name)
+    self.emit()
+    self.emit('NS_ASSUME_NONNULL_END')
+    self.emit()

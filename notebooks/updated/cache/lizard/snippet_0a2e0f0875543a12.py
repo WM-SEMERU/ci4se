@@ -1,0 +1,1 @@
+def get_objs_from_record ( self , modattr , billomat ) : subpars = self . get_uids_from_record ( modattr , billomat ) dxhttp = map ( self . foi , subpars ) return dict ( zip ( subpars , dxhttp ) )

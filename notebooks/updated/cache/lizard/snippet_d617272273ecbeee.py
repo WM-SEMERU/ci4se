@@ -1,0 +1,1 @@
+def setSeries ( self , osi , naam , d1 ) : dxhttp = bytearray ( ) dxhttp . append ( LightProtocolCommand . SetSeries ) dxhttp . extend ( struct . pack ( '<H' , osi ) ) dxhttp . extend ( struct . pack ( '<H' , naam ) ) dxhttp . extend ( d1 ) return self . send ( dxhttp )

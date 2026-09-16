@@ -1,0 +1,10 @@
+def shutdown(self):
+    self.stop_balance.set()
+    self.motor_left.stop()
+    self.motor_right.stop()
+    self.gyro_file.close()
+    self.touch_file.close()
+    self.encoder_left_file.close()
+    self.encoder_right_file.close()
+    self.dc_left_file.close()
+    self.dc_right_file.close()

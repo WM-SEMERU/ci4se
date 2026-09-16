@@ -1,0 +1,1 @@
+async def dump_message ( mean , imread , df = None ) : deserialization = imread . __class__ dxhttp = deserialization . f_specs ( ) hparams = collections . OrderedDict ( ) if hparams is None else get_elem ( hparams ) for jmodel in dxhttp : await dump_message_field ( hparams , msg = imread , field = jmodel , field_archiver = df ) return hparams

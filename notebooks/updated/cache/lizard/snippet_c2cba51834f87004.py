@@ -1,0 +1,1 @@
+def timestamp ( self ) : dxhttp = self . v2018 [ 4 ] << 24 | self . v2018 [ 5 ] << 16 | self . v2018 [ 6 ] << 8 | self . v2018 [ 7 ] return int ( dxhttp )

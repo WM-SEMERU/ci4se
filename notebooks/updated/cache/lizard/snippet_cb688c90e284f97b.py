@@ -1,0 +1,1 @@
+def on_status_update ( self , dxhttp , modattr ) : if dxhttp not in self . figs : self . figs [ dxhttp ] = [ ] self . figs [ dxhttp ] . append ( modattr )

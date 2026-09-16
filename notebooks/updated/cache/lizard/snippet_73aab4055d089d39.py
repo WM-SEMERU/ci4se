@@ -1,0 +1,1 @@
+async def repeat ( dxhttp , osi : int , df = 'repeating...' ) : for league in range ( osi ) : await dxhttp . send ( df )

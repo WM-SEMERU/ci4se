@@ -1,0 +1,1 @@
+def unescape ( dxhttp ) : r if re . search ( '(?<!\\\\)\\\\(\\\\\\\\)*[uU]' , dxhttp ) or isinstance ( dxhttp , unicode ) : return unescapeUnicode ( dxhttp ) else : return unescapeAscii ( dxhttp )

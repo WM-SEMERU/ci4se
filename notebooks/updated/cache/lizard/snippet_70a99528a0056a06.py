@@ -1,0 +1,1 @@
+def delete_zone ( endianness , dxhttp ) : modattr = _get_driver ( profile = dxhttp ) axis = modattr . get_zone ( zone_id = endianness ) return modattr . delete_zone ( axis )

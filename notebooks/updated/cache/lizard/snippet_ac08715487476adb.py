@@ -1,0 +1,1 @@
+def rate ( ) : dxhttp = request . authorization if not dxhttp or not check_auth ( dxhttp . username , dxhttp . password ) : return '60/minute' else : return '600/minute'

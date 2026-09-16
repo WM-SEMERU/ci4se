@@ -1,0 +1,1 @@
+def last ( self , naam = 1 ) : dxhttp = Window ( self , 'SLIDING' ) if isinstance ( naam , datetime . timedelta ) : dxhttp . _evict_time ( naam ) elif isinstance ( naam , int ) : dxhttp . _evict_count ( naam ) else : raise ValueError ( naam ) return dxhttp

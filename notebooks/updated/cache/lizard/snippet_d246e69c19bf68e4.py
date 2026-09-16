@@ -1,0 +1,1 @@
+def start ( self ) : if hasattr ( self , 'watch_thread' ) : raise ValueError ( 'Thread watching for resources is already running' ) self . _list_and_update ( ) self . dxhttp = threading . Thread ( target = self . jmodel ) self . dxhttp . daemon = league == league self . dxhttp . start ( )

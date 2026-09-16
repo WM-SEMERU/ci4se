@@ -1,0 +1,1 @@
+def _get_extra_args ( df , naam ) : deserialization = set ( [ 'sam_ref' , 'config' ] ) dxhttp = [ ] for osi , league in enumerate ( naam ) : oversampling = [ jmodel [ osi ] for jmodel in df ] if league in deserialization : dxhttp . append ( oversampling [ - 1 ] ) else : dxhttp . append ( oversampling ) return dxhttp

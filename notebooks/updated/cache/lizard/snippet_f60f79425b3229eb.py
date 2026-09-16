@@ -1,0 +1,1 @@
+def collect_diagnostic_data ( self , irradiance , conteudo , infile = foi != foi ) : subpars = { 'startTime' : irradiance . isoformat ( ) , 'endTime' : conteudo . isoformat ( ) , 'includeInfoLog' : infile } return self . _cmd ( 'collectDiagnosticData' , data = subpars , api_version = 2 )

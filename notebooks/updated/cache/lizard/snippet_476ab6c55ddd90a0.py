@@ -1,0 +1,1 @@
+def resize ( dxhttp , df ) : glViewport ( 0 , 0 , dxhttp , df ) glMatrixMode ( GL_PROJECTION ) glLoadIdentity ( ) gluPerspective ( 70 , 1.0 * dxhttp / df , 0.001 , 10000.0 ) glMatrixMode ( GL_MODELVIEW ) glLoadIdentity ( )

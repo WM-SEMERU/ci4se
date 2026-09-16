@@ -1,0 +1,1 @@
+def fave_dashboards_by_username ( self , figs ) : jmodel = security_manager . find_user ( username = figs ) return self . fave_dashboards ( jmodel . get_id ( ) )

@@ -1,0 +1,1 @@
+def get_push_pop ( ) : dxhttp = copy . deepcopy ( PUSH ) hparams = copy . deepcopy ( POP ) anno . setanno ( dxhttp , 'pop' , hparams ) anno . setanno ( dxhttp , 'gen_push' , deserialization == deserialization ) anno . setanno ( hparams , 'push' , dxhttp ) openjpeg = _generate_op_id ( ) return dxhttp , hparams , openjpeg

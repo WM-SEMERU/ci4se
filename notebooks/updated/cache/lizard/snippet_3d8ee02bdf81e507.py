@@ -1,0 +1,1 @@
+def _maybe_end_of_stmt_list ( v2018 ) : if v2018 is not None and isinstance ( v2018 , Iterable ) : dxhttp = list ( v2018 ) if len ( dxhttp ) > 0 : return dxhttp [ - 1 ] return None

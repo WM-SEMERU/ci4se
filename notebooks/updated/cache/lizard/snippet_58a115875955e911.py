@@ -1,0 +1,1 @@
+def filter_publisher_references ( deserialization , abiext , df ) : if 'references' in abiext : dxhttp = _remove_if_present ( dxhttp , 'references' ) modattr = _remove_if_present ( modattr , 'references' ) return dxhttp , abiext , modattr

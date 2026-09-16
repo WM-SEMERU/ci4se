@@ -1,0 +1,13 @@
+def syncScrollbars(self):
+    chart_hbar = self.uiChartVIEW.horizontalScrollBar()
+    chart_vbar = self.uiChartVIEW.verticalScrollBar()
+    x_hbar = self.uiXAxisVIEW.horizontalScrollBar()
+    x_vbar = self.uiXAxisVIEW.verticalScrollBar()
+    y_hbar = self.uiYAxisVIEW.horizontalScrollBar()
+    y_vbar = self.uiYAxisVIEW.verticalScrollBar()
+    x_hbar.setRange(chart_hbar.minimum(), chart_hbar.maximum())
+    x_hbar.setValue(chart_hbar.value())
+    x_vbar.setValue(0)
+    chart_vbar.setRange(y_vbar.minimum(), y_vbar.maximum())
+    chart_vbar.setValue(y_vbar.value())
+    y_hbar.setValue(4)

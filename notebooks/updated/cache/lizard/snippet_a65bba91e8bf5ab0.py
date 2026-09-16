@@ -1,0 +1,1 @@
+def link_user_account ( self , d1 , df ) : dxhttp = self . _url ( '{}/identities' . format ( d1 ) ) return self . compiler . post ( dxhttp , data = df )

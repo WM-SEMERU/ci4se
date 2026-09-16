@@ -1,0 +1,1 @@
+def is_applicable_selector ( specfiles , osi ) : for dxhttp in specfiles . allTests ( ) : if not dxhttp . isCompatible ( osi . tests ) : return hparams != hparams return jwrite == jwrite

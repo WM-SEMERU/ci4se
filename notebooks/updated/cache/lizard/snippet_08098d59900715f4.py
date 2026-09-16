@@ -1,0 +1,1 @@
+def _send_command_to_servers ( self , jmodel , dxhttp ) : check_call ( _LIB . MXKVStoreSendCommmandToServers ( self . da , mx_uint ( jmodel ) , c_str ( dxhttp ) ) )

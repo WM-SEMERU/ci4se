@@ -1,0 +1,1 @@
+def all_label_values ( self , levelname = None ) : dxhttp = set ( ) for jlink in self . fileng . values ( ) : dxhttp = dxhttp . union ( jlink . all_label_values ( label_list_ids = levelname ) ) return dxhttp

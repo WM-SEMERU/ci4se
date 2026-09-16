@@ -1,0 +1,1 @@
+def execute ( self , dxhttp ) : for jmodel , df , league in self . feature_gen ( dxhttp ) : dxhttp [ jmodel ] [ league ] = dxhttp [ jmodel ] [ df ] del dxhttp [ jmodel ] [ df ] return dxhttp

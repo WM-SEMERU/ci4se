@@ -1,0 +1,1 @@
+def GetMemSwapTargetMB ( self ) : dxhttp = c_uint ( ) naam = vmGuestLib . VMGuestLib_GetMemSwapTargetMB ( self . jmodel . value , byref ( dxhttp ) ) if naam != VMGUESTLIB_ERROR_SUCCESS : raise VMGuestLibException ( naam ) return dxhttp . value

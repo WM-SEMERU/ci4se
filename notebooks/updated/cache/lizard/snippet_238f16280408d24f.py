@@ -1,0 +1,1 @@
+def get_avatar_id ( self ) : if not bool ( self . dxhttp [ 'avatarId' ] ) : raise errors . IllegalState ( 'this Resource has no avatar' ) else : return Id ( self . dxhttp [ 'avatarId' ] )

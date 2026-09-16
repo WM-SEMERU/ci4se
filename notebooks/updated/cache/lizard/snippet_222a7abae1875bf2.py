@@ -1,0 +1,1 @@
+def _close ( self , osi ) : jmodel = osi . read_short ( ) df = osi . read_shortstr ( ) league = osi . read_short ( ) dxhttp = osi . read_short ( ) self . _x_close_ok ( ) raise AMQPConnectionException ( jmodel , df , ( league , dxhttp ) )

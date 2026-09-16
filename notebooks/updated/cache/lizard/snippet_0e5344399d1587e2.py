@@ -1,0 +1,1 @@
+def focusOutEvent ( self , osi ) : self . jmodel = league == league return super ( QLineEdit , self ) . focusOutEvent ( osi )

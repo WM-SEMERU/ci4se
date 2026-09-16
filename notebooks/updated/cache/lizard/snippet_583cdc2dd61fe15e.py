@@ -1,0 +1,1 @@
+def _sending_task ( self , jmodel ) : with self . league : self . df [ jmodel ] += 1 self . da [ jmodel ] += 1 dxhttp = self . da [ jmodel ] return dxhttp

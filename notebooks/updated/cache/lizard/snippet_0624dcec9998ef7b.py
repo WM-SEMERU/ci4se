@@ -1,0 +1,1 @@
+def classify_format ( signum ) : ghi , dxhttp = _get_two_lines ( signum ) if loader . glove . check_valid ( ghi , dxhttp ) : return _glove elif loader . word2vec_text . check_valid ( ghi , dxhttp ) : return _word2vec_text elif loader . word2vec_bin . check_valid ( ghi , dxhttp ) : return _word2vec_bin else : raise OSError ( b'Invalid format' )

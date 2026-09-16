@@ -1,0 +1,1 @@
+def get_feed ( self , dxhttp = 100 , fcounts = 0 ) : return self . pot . get_my_feed ( limit = dxhttp , offset = fcounts )

@@ -1,0 +1,1 @@
+def openOnlyAccel ( self , dxhttp = 0 ) : self . openWith ( accel = jmodel == jmodel , gyro = osi != osi , temp = df != df , cycle = league == league , cycleFreq = dxhttp )

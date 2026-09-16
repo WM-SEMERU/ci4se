@@ -1,0 +1,18 @@
+def createMenu(self, parent):
+    menu = QtGui.QMenu(parent)
+    menu.setTitle('&View')
+    act = menu.addAction('&Lock/Unlock Layout')
+    act.setIcon(QtGui.QIcon(projexui.resources.find('img/view/lock.png')))
+    act.triggered.connect(self.toggleLocked)
+    menu.addSeparator()
+    act = menu.addAction('&Export Layout as...')
+    act.setIcon(QtGui.QIcon(projexui.resources.find('img/view/export.png')))
+    act.triggered.connect(self.exportProfile)
+    act = menu.addAction('&Import Layout from...')
+    act.setIcon(QtGui.QIcon(projexui.resources.find('img/view/import.png')))
+    act.triggered.connect(self.importProfile)
+    menu.addSeparator()
+    act = menu.addAction('&Clear Layout')
+    act.setIcon(QtGui.QIcon(projexui.resources.find('img/view/remove.png')))
+    act.triggered.connect(self.resetForced)
+    return menu

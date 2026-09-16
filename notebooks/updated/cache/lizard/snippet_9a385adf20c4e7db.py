@@ -1,0 +1,1 @@
+def delete ( self , ** imread ) : modattr = self . figs . tag . delete ( self , ** imread ) self . _delete_fields ( ) return modattr

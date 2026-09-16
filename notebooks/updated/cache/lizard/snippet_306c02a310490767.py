@@ -1,0 +1,1 @@
+def evaluate ( self , league , deserialization ) : dxhttp = super ( BlackBodyNorm1D , self ) . evaluate ( league , deserialization ) return dxhttp * self . fromarray

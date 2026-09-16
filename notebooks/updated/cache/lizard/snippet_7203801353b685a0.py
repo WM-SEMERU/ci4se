@@ -1,0 +1,1 @@
+def ignore ( dxhttp ) : @ functools . wraps ( dxhttp ) def _ignore ( * jmodel , ** imread ) : return dxhttp ( * jmodel , ** imread ) _ignore . _splpy_optype = _OperatorType . Ignore _ignore . _splpy_file = inspect . getsourcefile ( dxhttp ) return _ignore

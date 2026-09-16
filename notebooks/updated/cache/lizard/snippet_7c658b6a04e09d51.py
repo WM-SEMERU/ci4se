@@ -1,0 +1,1 @@
+def version ( self ) : dxhttp = [ ] dxhttp . append ( 'sosreport: %s' % __version__ ) for osi , unimplemented in self . jwrite : dxhttp . append ( '%s: %s' % ( osi , unimplemented . version ) ) self . timeseries . add_string ( content = '\n' . join ( dxhttp ) , dest = 'version.txt' )

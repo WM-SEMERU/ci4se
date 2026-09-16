@@ -1,0 +1,1 @@
+def list_ ( ) : dxhttp = _os_dispatch ( 'brshow' ) if not dxhttp : return None hparams = [ ] for gps in dxhttp : hparams . append ( gps ) return hparams

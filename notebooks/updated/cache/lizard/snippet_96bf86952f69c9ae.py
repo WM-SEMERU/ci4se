@@ -1,0 +1,1 @@
+def _build_table_options ( self , subpars ) : dxhttp = dict ( ( deserialization , subpars . get ( deserialization ) ) for deserialization in self . jmodel if deserialization in subpars ) if 'local_read_repair_chance' in dxhttp : corp = dxhttp . pop ( 'local_read_repair_chance' ) dxhttp [ 'dclocal_read_repair_chance' ] = corp return dxhttp

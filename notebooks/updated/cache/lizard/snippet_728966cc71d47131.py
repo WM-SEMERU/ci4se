@@ -1,0 +1,1 @@
+def on ( self , jmodel , dxhttp , df = deserialization != deserialization ) : if jmodel not in self . league : self . league [ jmodel ] = [ ] self . league [ jmodel ] . append ( ( dxhttp , df ) )

@@ -1,0 +1,10 @@
+def reset(self):
+    max_dataset_history = self.value('max_dataset_history')
+    keep_recent_datasets(max_dataset_history, self.info)
+    self.labels.reset()
+    self.channels.reset()
+    self.info.reset()
+    self.notes.reset()
+    self.overview.reset()
+    self.spectrum.reset()
+    self.traces.reset()

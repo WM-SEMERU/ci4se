@@ -1,0 +1,11 @@
+def invoked(self, ctx):
+    logging.debug('Some debugging message')
+    print('Just a normal print!')
+    logging.info('Some informational message')
+    print('Just a normal print!')
+    logging.warn('Some warning message')
+    print('Just a normal print!')
+    logging.error('Some error message')
+    print('Just a normal print!')
+    logging.critical('Some critical message')
+    print('Just a normal print!')

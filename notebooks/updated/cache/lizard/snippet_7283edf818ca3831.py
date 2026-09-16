@@ -1,0 +1,1 @@
+def match_resource_id ( self , dxhttp , unimplemented ) : if not isinstance ( dxhttp , Id ) : raise errors . InvalidArgument ( ) self . _add_match ( 'resourceId' , str ( dxhttp ) , unimplemented )

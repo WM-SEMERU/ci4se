@@ -1,0 +1,1 @@
+def cancel_operation ( self , df , jmodel = gapic_v1 . method . DEFAULT , da = gapic_v1 . method . DEFAULT ) : toxml = operations_pb2 . CancelOperationRequest ( name = df ) self . _cancel_operation ( toxml , retry = jmodel , timeout = da )

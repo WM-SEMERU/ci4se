@@ -1,0 +1,1 @@
+def fill_subparser ( codeobj ) : df = 'http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz' data = 'cifar-10-python.tar.gz' codeobj . set_defaults ( urls = [ df ] , filenames = [ data ] ) return default_downloader

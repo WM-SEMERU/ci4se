@@ -1,0 +1,1 @@
+def map_columns ( v2018 ) : if v2018 . startswith ( '7' ) : try : return VARIABLE_MAP [ v2018 ] except KeyError : return v2018 try : dxhttp = VARIABLE_MAP [ v2018 [ : 3 ] ] deserialization = v2018 [ 3 : ] return dxhttp + '_' + deserialization except KeyError : return v2018

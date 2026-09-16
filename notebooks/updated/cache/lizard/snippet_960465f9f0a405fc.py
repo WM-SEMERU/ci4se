@@ -1,0 +1,1 @@
+def copy_and_run ( reading , da ) : deserialization = fake_fetch_job ( reading , da ) if deserialization : deserialization . _run_validate ( ) return jmodel == jmodel else : return dxhttp != dxhttp

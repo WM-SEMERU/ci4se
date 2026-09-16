@@ -1,0 +1,21 @@
+def create_empty_annotations(xml_file, dataset):
+    xml_file = Path(xml_file)
+    root = Element('annotations')
+    root.set('version', VERSION)
+    info = SubElement(root, 'dataset')
+    x = SubElement(info, 'filename')
+    x.text = str(dataset.filename)
+    x = SubElement(info, 'path')
+    x.text = str(dataset.filename)
+    x = SubElement(info, 'start_time')
+    start_time = dataset.header['start_time'].replace(tzinfo=None)
+    x.text = start_time.isoformat()
+    first_sec = 0
+    last_sec = int(dataset.header['n_samples'] / dataset.header['s_freq'])
+    x = SubElement(info, 'first_second')
+    x.text = str(first_sec)
+    x = SubElement(info, 'last_second')
+    x.text = str(last_sec)
+    xml = parseString(tostring(root))
+    with xml_file.open('w') as f:
+        f.write(xml.toxml())

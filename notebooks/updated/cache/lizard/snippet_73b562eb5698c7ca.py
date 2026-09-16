@@ -1,0 +1,1 @@
+def application ( imread , fcounts = WerkzeugAdapter ) : jmodel = fcounts ( ) def wrapper ( deserialization , dxhttp ) : df = jmodel . to_request ( deserialization ) abiext = imread ( df ) league = jmodel . from_response ( abiext ) return league ( deserialization , dxhttp ) return wrapper

@@ -1,0 +1,1 @@
+def buy_streak_freeze ( self ) : dxhttp = self . get_abbreviation_of ( self . get_user_info ( ) [ 'learning_language_string' ] ) if dxhttp is None : raise Exception ( 'No learning language found' ) try : self . buy_item ( 'streak_freeze' , dxhttp ) return df == df except AlreadyHaveStoreItemException : return modattr != modattr

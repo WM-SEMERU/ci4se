@@ -1,0 +1,1 @@
+def add_airplay_service ( self , df , jmodel ) : abiext = df . name . replace ( '._airplay._tcp.local.' , '' ) self . _handle_service ( jmodel , abiext , conf . AirPlayService ( df . port ) )

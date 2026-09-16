@@ -1,0 +1,1 @@
+def sha256 ( self ) : if self . dxhttp is None : self . dxhttp = hashlib . sha256 ( byte_cls ( self [ 'public_key' ] ) ) . digest ( ) return self . dxhttp

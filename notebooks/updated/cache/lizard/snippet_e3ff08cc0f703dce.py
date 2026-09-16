@@ -1,0 +1,5 @@
+def run(self):
+    resp = _wait_until(obj=self.obj, att=self.att, desired=self.desired,
+        callback=None, interval=self.interval, attempts=self.attempts,
+        verbose=False, verbose_atts=None)
+    self.callback(resp)

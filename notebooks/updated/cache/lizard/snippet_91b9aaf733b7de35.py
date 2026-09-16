@@ -1,0 +1,20 @@
+def zthread_fork(ctx, func, *args, **kwargs):
+    a = ctx.socket(zmq.PAIR)
+    a.setsockopt(zmq.LINGER, 0)
+    a.setsockopt(zmq.RCVHWM, 100)
+    a.setsockopt(zmq.SNDHWM, 100)
+    a.setsockopt(zmq.SNDTIMEO, 5000)
+    a.setsockopt(zmq.RCVTIMEO, 5000)
+    b = ctx.socket(zmq.PAIR)
+    b.setsockopt(zmq.LINGER, 0)
+    b.setsockopt(zmq.RCVHWM, 100)
+    b.setsockopt(zmq.SNDHWM, 100)
+    b.setsockopt(zmq.SNDTIMEO, 5000)
+    a.setsockopt(zmq.RCVTIMEO, 5000)
+    iface = 'inproc://%s' % binascii.hexlify(os.urandom(8))
+    a.bind(iface)
+    b.connect(iface)
+    thread = threading.Thread(target=func, args=(ctx, b) + args, kwargs=kwargs)
+    thread.daemon = False
+    thread.start()
+    return a

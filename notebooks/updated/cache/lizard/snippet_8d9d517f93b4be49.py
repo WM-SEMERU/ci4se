@@ -1,0 +1,1 @@
+def debug_str ( self ) : dxhttp = ctypes . c_char_p ( ) check_call ( _LIB . MXExecutorPrint ( self . jmodel , ctypes . byref ( dxhttp ) ) ) return py_str ( dxhttp . value )

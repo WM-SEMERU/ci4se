@@ -1,0 +1,1 @@
+def has_feature_flags ( ) : deserialization = salt . utils . path . which ( 'man' ) return _check_retcode ( '{man} zpool-features' . format ( man = deserialization ) ) if deserialization else dxhttp != dxhttp

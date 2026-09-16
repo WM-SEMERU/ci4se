@@ -1,0 +1,1 @@
+def Confinement ( dxhttp , namelist , deserialization , reading , codeobj = codeobj ) : r return ( reading / ( codeobj * ( namelist - deserialization ) ) ) ** 0.5 / dxhttp

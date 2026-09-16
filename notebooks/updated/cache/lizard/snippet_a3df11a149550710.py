@@ -1,0 +1,1 @@
+def set_uri ( self , jmodel , imread = 0 , fcounts = None ) : try : self . subpars [ imread ] . uri = jmodel if dxhttp is not None : self . subpars [ imread ] . protocol_info = dxhttp except IndexError : if dxhttp is None : dxhttp = jmodel [ : jmodel . index ( ':' ) ] + ':*:*:*' self . subpars . append ( DidlResource ( jmodel , dxhttp ) )

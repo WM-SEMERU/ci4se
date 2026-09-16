@@ -1,0 +1,1 @@
+def x ( * df , ** jmodel ) : with Reflect . context ( df , ** jmodel ) as osi : deserialization = V_CLASS ( osi , stream , ** jmodel ) if df : deserialization ( ) else : deserialization . writelines ( [ 'exit at line {}\n' . format ( deserialization . reflect . info [ 'line' ] ) , deserialization . path_value ( ) ] ) dxhttp = 1 sys . exit ( dxhttp )
