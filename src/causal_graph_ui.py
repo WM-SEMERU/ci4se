@@ -211,8 +211,30 @@ def _lab_distance(rgb1, rgb2) -> float:
 
 
 def _distinct_palette(palette_name: str, n_colors: int, candidate_count: int = 72):
-    """Choose perceptually separated colors from a Seaborn palette."""
+    """Choose distinct colors from a Seaborn palette.
+
+    Categorical palettes such as ``colorblind`` already contain deliberately
+    separated colors, so they are used directly. Continuous palettes are
+    sampled densely and reduced using perceptual distance.
+    """
+    categorical_palettes = {
+        "colorblind",
+        "deep",
+        "muted",
+        "bright",
+        "pastel",
+        "dark",
+        "Set1",
+        "Set2",
+        "Set3",
+        "tab10",
+        "tab20",
+    }
+
     try:
+        if palette_name in categorical_palettes:
+            return list(sns.color_palette(palette_name, n_colors=n_colors))
+
         candidates = list(
             sns.color_palette(
                 palette_name,
@@ -261,7 +283,7 @@ class CausalGraphBuilder:
         treatment: str,
         outcome: str,
         covariates: Iterable[str] | None = None,
-        palette: str = "mako",
+        palette: str = "colorblind",
         edge_opacity: float = 0.35,
     ):
         self.data_columns = list(data_columns)

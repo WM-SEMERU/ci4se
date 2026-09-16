@@ -272,12 +272,15 @@ def build_dag_worksheet(
     quality_table: pd.DataFrame,
     treatment: str,
     outcome: str,
+    timing_map: dict[str, str] | None = None,
 ) -> pd.DataFrame:
     """
     Build a worksheet that turns statistical patterns into causal questions.
 
-    Constant variables remain visible in the worksheet, but are marked as
-    empirically uninformative for association analysis.
+    The optional timing map records whether a variable is known before or after
+    treatment. Timing is causal knowledge, not something learned from
+    correlation, and it is often essential for deciding whether adjustment is
+    appropriate.
     """
     base = quality_table[["variable", "unique_values", "has_variation"]].copy()
 
@@ -307,6 +310,11 @@ def build_dag_worksheet(
         )
     )
 
+    timing_map = timing_map or {}
+    merged["measurement_timing"] = merged["variable"].map(timing_map).fillna(
+        "unknown"
+    )
+
     def data_note(row):
         if not bool(row["has_variation"]):
             return (
@@ -323,8 +331,8 @@ def build_dag_worksheet(
                 "across observed units?"
             )
         return (
-            f"Could {variable} plausibly cause {treatment}, "
-            f"{outcome}, both, or neither?"
+            f"Given that {variable} is measured {row['measurement_timing']}, "
+            f"could it plausibly cause {treatment}, {outcome}, both, or neither?"
         )
 
     merged["data_note"] = merged.apply(data_note, axis=1)
@@ -336,6 +344,7 @@ def build_dag_worksheet(
     return merged[
         [
             "variable",
+            "measurement_timing",
             "unique_values",
             "association_with_treatment",
             "association_with_outcome",
