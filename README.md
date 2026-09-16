@@ -1,70 +1,99 @@
-# Causal inference tutorial
+# Causal Inference Tutorial
 
-A three-notebook tutorial built around one question:
-
-> **How do we move from observed association to a defensible causal effect?**
-
-The example uses real code/docstring text plus a controlled synthetic observational study. The synthetic part gives the tutorial a known causal ground truth, including variables with deliberately different roles.
-
-## Run in this order
+This tutorial introduces causal inference through a three-stage workflow:
 
 ```text
-00_data_preparation_tutorial.ipynb
-        │
-        │ creates data/causal_data.csv
-        ▼
-01_correlational_analysis.ipynb
-        │
-        │ creates data/dag_worksheet.csv
-        ▼
-02_causal_inference_tutorial.ipynb
-        │
-        │ build DAG → identify → estimate → refute
-        ▼
-reveal and compare with synthetic ground truth
+00 — Prepare the data
+        ↓
+01 — Explore correlations
+        ↓
+02 — Build a causal model
 ```
 
-## Why this version is a better teaching example
+The main idea is simple:
 
-The raw code/docstring strings are unchanged.
+> **Correlation can show us patterns in the data. Causal inference asks what would happen under an intervention.**
 
-The bundled raw CSV adds three clearly synthetic baseline/context variables:
+The notebooks are designed to be completed in order. Each notebook prepares the reasoning needed for the next one.
 
-- `developer_experience`
-- `rollout_eligibility`
-- `noise_feature`
+---
 
-Notebook 00 then generates a study containing several distinct causal roles:
+# What you will learn
 
-| Variable | Hidden teaching role |
-|---|---|
-| `code_number_tokens` | confounder |
-| `code_complexity` | confounder |
-| `developer_experience` | confounder |
-| `rollout_eligibility` | instrument candidate |
-| `code_num_strings` | outcome predictor |
-| `docstring_detail_score` | mediator |
-| `review_flag` | collider |
-| `code_num_identifiers` | correlated/proxy-like measurement |
-| `noise_feature` | irrelevant variable |
+By the end of the tutorial, you should be able to explain the difference between:
 
-**Do not use this table while attempting notebook 01 or the first part of notebook 02** if you want the intended exercise. Notebook 02 reveals the actual edge list after you freeze your proposed DAG.
+- an **observed association**;
+- a **causal assumption**;
+- a **causal graph**;
+- an **identified estimand**;
+- and an **estimated causal effect**.
 
-The purpose is to show that variables with similar correlations can have very different causal roles.
+You will also practice identifying variables that may play different roles in a causal graph, such as:
 
-## Project structure
+- common causes;
+- mediators;
+- colliders;
+- treatment predictors;
+- outcome predictors;
+- instrument candidates;
+- proxy variables;
+- irrelevant variables.
+
+The goal is **not** to memorize these labels.
+
+The goal is to learn how to ask:
+
+> **What causal mechanism would justify this arrow?**
+
+---
+
+# The tutorial question
+
+The synthetic study asks:
+
+> **Does enabling a documentation intervention improve the probability of a successful documentation outcome?**
+
+The example begins with real code and docstring text. The tutorial then adds a controlled synthetic observational study so that the true data-generating process is known.
+
+That lets us compare:
+
+1. what we can observe from correlations;
+2. what causal graph we would propose;
+3. and what actually generated the synthetic data.
+
+This comparison is one of the most important parts of the tutorial.
+
+---
+
+# Important: do not inspect the answer too early
+
+The project contains:
+
+```text
+data/synthetic_ground_truth_edges.csv
+```
+
+This file contains the causal graph used to generate the synthetic study.
+
+**Do not open it before the reveal section in notebook 02** if you want to complete the graph-construction exercise yourself.
+
+The purpose of the exercise is to discover that correlation alone does not reliably reveal causal roles.
+
+---
+
+# Project structure
 
 ```text
 causal_inference_tutorial_project/
 │
-├── 00_data_preparation_tutorial.ipynb
+├── 00_data_preparation.ipynb
 ├── 01_correlational_analysis.ipynb
-├── 02_causal_inference_tutorial.ipynb
+├── 02_causal_inference.ipynb
 ├── README.md
 ├── requirements.txt
 │
 ├── data/
-│   ├── raw_code_docstrings_enriched.csv
+│   ├── raw_code.csv
 │   └── synthetic_ground_truth_edges.csv
 │
 ├── cache/
@@ -77,181 +106,655 @@ causal_inference_tutorial_project/
     └── causal_tutorial_utils.py
 ```
 
-`causal_data.csv` and `dag_worksheet.csv` are generated when you run notebooks 00 and 01.
+The notebooks are the learning material.
 
-## Install
+The `src/` directory contains implementation details so that the notebooks can stay focused on the causal concepts.
 
-From the project root:
+---
+
+# Setup
+
+From the project directory, create a virtual environment:
 
 ```bash
 python -m venv .venv
+```
+
+Activate it.
+
+On macOS or Linux:
+
+```bash
 source .venv/bin/activate
-pip install -r requirements.txt
-jupyter lab
 ```
 
 On Windows PowerShell:
 
 ```powershell
-python -m venv .venv
 .venv\Scripts\Activate.ps1
+```
+
+Install the dependencies:
+
+```bash
 pip install -r requirements.txt
+```
+
+Start Jupyter:
+
+```bash
 jupyter lab
 ```
 
-The notebooks use project-relative paths, so no path edits are required if Jupyter is started from the project directory.
+Then run the notebooks in numerical order.
+
+The causal-inference notebook uses **DoWhy 0.14**.
 
 ---
 
-# 00 — Data preparation
+# 00 — Data Preparation
 
-Notebook 00 answers:
+Open:
 
-> **What variables are observed for each unit?**
+```text
+00_data_preparation.ipynb
+```
 
-It extracts baseline code measurements and creates one observed treatment and one observed outcome per unit.
+## Purpose
 
-The synthetic treatment assignment depends on baseline variables, creating confounding.
+The first notebook answers:
 
-The generator also creates:
+> **What exactly is one observation in our study?**
 
-- a post-treatment mediator (`docstring_detail_score`);
-- a collider (`review_flag`);
-- an instrument-like baseline variable (`rollout_eligibility`);
-- an irrelevant variable (`noise_feature`).
+Before doing any causal analysis, we need a valid unit-level dataset.
 
-The exact generating DAG is written to `data/synthetic_ground_truth_edges.csv`, but the tutorial saves its reveal for notebook 02.
+Each row should represent one observational unit with:
 
-Output:
+- one observed treatment;
+- one observed outcome;
+- measured variables describing that unit.
+
+The notebook starts from code and docstring data and extracts useful numeric features.
+
+It then creates a synthetic observational study for teaching purposes.
+
+## Why synthetic treatment and outcome?
+
+In a real observational study, the treatment and outcome would come from the real system being studied.
+
+Here we generate them because this gives us a known causal data-generating process.
+
+That means later we can ask:
+
+> Did our causal analysis recover the effect that was actually built into the data?
+
+## Output
+
+Notebook 00 creates:
 
 ```text
 data/causal_data.csv
 ```
 
+This becomes the input to notebooks 01 and 02.
+
+## What to think about
+
+While working through notebook 00, ask:
+
+- What is the observational unit?
+- Which variables exist before treatment?
+- Which variables could only exist after treatment?
+- Which variables might plausibly influence treatment assignment?
+- Which variables might plausibly influence the outcome?
+
+Do not worry about drawing the graph yet.
+
+Notebook 01 will first show what the observed data look like.
+
 ---
 
-# 01 — Correlational analysis
+# Transition: from measurement to association
 
-Notebook 01 answers:
+After notebook 00, we know:
 
-> **What patterns are visible if we only look at the observed data?**
+> **what was observed for each unit.**
 
-It uses Seaborn to show:
+We do **not** yet know which variables should be adjusted for.
 
-- raw outcome differences by treatment;
-- a signed correlation heatmap;
+The next step is to inspect the data and ask:
+
+> **Which variables move together?**
+
+That is the role of notebook 01.
+
+---
+
+# 01 — Correlational Analysis
+
+Open:
+
+```text
+01_correlational_analysis.ipynb
+```
+
+## Purpose
+
+Notebook 01 explores relationships in the observed data.
+
+It does **not** perform causal inference.
+
+You will examine:
+
+- the raw treatment–outcome difference;
+- correlations among measured variables;
+- differences between treated and untreated groups;
 - standardized mean differences;
-- an association map with treatment on one axis and outcome on the other;
-- focused pairplots.
+- variables associated with treatment;
+- variables associated with outcome;
+- pairwise relationships among selected variables.
 
-It then creates:
+All plots use **Seaborn**.
+
+## The most important rule in this notebook
+
+A variable that is associated with both treatment and outcome is **not automatically a confounder**.
+
+For example, the pattern
+
+```text
+X is associated with treatment
+X is associated with outcome
+```
+
+can occur under several different causal structures.
+
+Possible explanations include:
+
+```text
+X → treatment
+X → outcome
+```
+
+but also:
+
+```text
+treatment → X → outcome
+```
+
+or:
+
+```text
+treatment → X ← outcome
+```
+
+or other structures.
+
+The observed correlation does not tell us which structure is correct.
+
+---
+
+# A useful way to read the plots
+
+When you see a strong association, do not immediately ask:
+
+> “Should I adjust for this variable?”
+
+First ask:
+
+> “What causal process could have produced this association?”
+
+Useful questions include:
+
+- Was the variable measured before treatment?
+- Could treatment cause this variable?
+- Could the outcome cause this variable?
+- Could another variable cause both?
+- Could this variable simply be a proxy for something else?
+- Is there a plausible mechanism for a causal arrow?
+
+---
+
+# Standardized mean difference
+
+Notebook 01 also compares covariates between treated and untreated units.
+
+The standardized mean difference (SMD) describes how different the two groups are on a variable.
+
+Roughly:
+
+```text
+SMD near 0
+→ treated and control groups look similar
+
+larger |SMD|
+→ treated and control groups differ more
+```
+
+But remember:
+
+> **Imbalance is evidence of a difference between groups, not proof of confounding.**
+
+A post-treatment variable can also be highly imbalanced.
+
+---
+
+# The association map
+
+One of the most useful plots in notebook 01 places:
+
+```text
+association with treatment
+```
+
+on one axis and:
+
+```text
+association with outcome
+```
+
+on the other.
+
+This helps identify variables that deserve closer investigation.
+
+However, two variables located in similar parts of the plot may have completely different causal roles.
+
+That ambiguity is intentional.
+
+---
+
+# The DAG worksheet
+
+At the end of notebook 01, you create:
 
 ```text
 data/dag_worksheet.csv
 ```
 
-The worksheet contains descriptive evidence and blank fields for causal reasoning.
+The worksheet combines the statistical evidence with space for causal reasoning.
 
-The key rule is:
+You will see columns such as:
 
-> **Association determines which questions to ask, not which arrows to draw.**
+```text
+variable
+association_with_treatment
+association_with_outcome
+standardized_mean_difference
+```
 
-A variable associated with treatment and outcome might be a confounder—but it might also be a mediator, collider, proxy, or something else.
+and blank columns such as:
+
+```text
+proposed_role
+proposed_edges
+domain_justification
+```
+
+The blank columns are the important part.
+
+Try to fill them using **causal reasoning**, not correlation ranking.
+
+For every proposed arrow, try to complete this sentence:
+
+> “I believe `A → B` because __________.”
+
+“Because A and B are correlated” is not sufficient.
 
 ---
 
-# 02 — Causal inference
+# Transition: from association to causation
 
-Notebook 02 answers:
+Notebook 01 answers:
 
-> **What causal assumptions are we willing to make, and what effect follows from them?**
+> **What patterns can we observe?**
 
-It loads the DAG worksheet and opens the interactive graph editor.
+Notebook 02 asks a fundamentally different question:
 
-The graph starts from:
+> **What causal assumptions are we willing to make?**
+
+This is where the DAG enters the analysis.
+
+---
+
+# 02 — Causal Inference
+
+Open:
+
+```text
+02_causal_inference.ipynb
+```
+
+## Purpose
+
+Notebook 02 converts your causal assumptions into a formal causal model.
+
+The workflow is:
+
+```text
+causal assumptions
+        ↓
+DAG
+        ↓
+identification
+        ↓
+estimation
+        ↓
+refutation
+```
+
+You will use **DoWhy** for the identification and estimation steps.
+
+---
+
+# Step 1 — Review the DAG worksheet
+
+Notebook 02 first loads the worksheet created in notebook 01.
+
+Use it as a reminder of:
+
+- what the data showed;
+- what questions remained unresolved;
+- what causal mechanisms you think are plausible.
+
+The worksheet is evidence for discussion.
+
+It is not the graph.
+
+---
+
+# Step 2 — Build the causal graph
+
+The interactive graph begins with:
 
 ```text
 treatment → output
 ```
 
-You add edges using:
+This represents the causal effect we want to study.
 
-- temporal order;
-- domain knowledge;
-- plausible mechanisms;
-- the statistical clues from notebook 01.
+You then decide which other arrows should be added.
 
-After freezing the graph, DoWhy 0.14 is used to:
+The graph editor can display structural roles such as:
 
-1. identify the estimand;
-2. estimate the Average Treatment Effect with inverse propensity weighting;
-3. run placebo-treatment and random-common-cause refuters.
+- common cause;
+- mediator;
+- instrument candidate;
+- outcome predictor;
+- collider candidate.
 
-Only after this exercise does the notebook reveal the synthetic ground-truth DAG and compare its edges with your proposed graph.
+These labels are calculated from the **graph you draw**.
+
+They are not learned from the correlation matrix.
 
 ---
 
-# The main lesson
+# Before adding an arrow
 
-These three statements are different:
+Ask three questions.
 
-### Measurement
+### 1. Time
+
+Does the proposed cause occur before the proposed effect?
+
+### 2. Mechanism
+
+Can you describe a plausible process by which the cause changes the effect?
+
+### 3. Alternatives
+
+Could the observed association instead be explained by:
+
+- reverse causation?
+- a common cause?
+- mediation?
+- a collider?
+- a proxy variable?
+
+If you cannot explain an arrow without referring only to correlation, reconsider it.
+
+---
+
+# Step 3 — Identification
+
+After freezing the DAG, DoWhy performs **identification**.
+
+Identification asks:
+
+> **If this graph is correct, what observable quantity corresponds to the causal effect we want?**
+
+This is different from estimation.
+
+Identification determines the causal estimand.
+
+Estimation computes a number from the observed data.
+
+---
+
+# Step 4 — Estimation
+
+The tutorial estimates the:
 
 ```text
-code_complexity = 4
+Average Treatment Effect (ATE)
 ```
 
-### Association
+using inverse propensity-score weighting.
+
+Conceptually, the ATE asks:
+
+> On average, how would the outcome change if the same population were treated instead of untreated?
+
+For a binary outcome, an estimated ATE of:
 
 ```text
-code_complexity is associated with treatment and outcome
+0.10
 ```
 
-### Causal assumption
+means an estimated:
 
 ```text
-code_complexity → treatment
-code_complexity → output
+10 percentage-point increase
 ```
 
-Notebook 00 creates measurements.
+in outcome probability.
 
-Notebook 01 measures associations.
+---
 
-Notebook 02 requires causal assumptions.
+# Step 5 — Refutation
 
-DoWhy can identify and estimate an effect **conditional on those assumptions**. It cannot infer the scientifically correct DAG from correlation alone.
+The notebook also runs causal refuters.
 
-## `default_params()`
+These are robustness checks.
 
-Every notebook keeps `default_params()` near the top.
+Examples include:
 
-The defaults use relative paths:
+### Placebo treatment
+
+Treatment is randomly permuted.
+
+The estimated placebo effect should usually be close to zero.
+
+### Random common cause
+
+An irrelevant random variable is added.
+
+A stable estimate should not change substantially.
+
+Passing these tests is useful, but:
+
+> **Refutation does not prove that the DAG is correct.**
+
+Important unmeasured confounding can still exist.
+
+---
+
+# The reveal
+
+After you have:
+
+1. built your DAG;
+2. frozen it;
+3. identified the effect;
+4. estimated the ATE;
+
+notebook 02 reveals the synthetic data-generating graph.
+
+You can then compare:
+
+```text
+your proposed edges
+```
+
+with:
+
+```text
+the edges that actually generated the synthetic data
+```
+
+This is where many of the most interesting lessons appear.
+
+Ask:
+
+- Which variables did correlation make easy to understand?
+- Which variables were misleading?
+- Did any post-treatment variable look like a confounder?
+- Did an irrelevant variable appear important by chance?
+- Did a proxy tempt you to add an unnecessary causal arrow?
+- Did you miss a real common cause because its marginal correlation was small?
+
+---
+
+# The key lesson
+
+The tutorial intentionally separates three statements.
+
+## Measurement
+
+```text
+X = 4
+```
+
+This describes an observation.
+
+## Association
+
+```text
+X is associated with treatment and outcome.
+```
+
+This describes a pattern in the observed data.
+
+## Causal claim
+
+```text
+X → treatment
+X → outcome
+```
+
+This describes an assumption about how the world works.
+
+These are not interchangeable.
+
+A causal analysis becomes possible only after the causal assumptions are made explicit.
+
+---
+
+# A useful mental model
+
+Think of the three notebooks as answering three questions.
+
+| Notebook | Question |
+|---|---|
+| 00 | **What did we observe?** |
+| 01 | **What patterns do we see?** |
+| 02 | **What causal structure could explain those patterns?** |
+
+Then DoWhy asks:
+
+> **Given that causal structure, what effect can we identify and estimate?**
+
+---
+
+# Configuration
+
+Each notebook contains a `default_params()` function near the top.
+
+You normally should not need to edit the source files in `src/`.
+
+For example:
+
+```python
+def default_params():
+    return {
+        ...
+    }
+```
+
+The current bundle uses project-relative paths such as:
 
 ```python
 "causal_dataset": "data/causal_data.csv"
-"dag_worksheet_output": "data/dag_worksheet.csv"
-"dag_worksheet_path": "data/dag_worksheet.csv"
 ```
 
-Plot and graph styling are also configurable:
+so the notebooks should work when Jupyter is launched from the project directory.
+
+Plot settings can also be changed from `default_params()`.
+
+For example:
 
 ```python
-"plot_palette": "mako"
-"heatmap_palette": "vlag"
-"graph_palette": "mako"
-"graph_edge_opacity": 0.35
+"plot_palette": "mako",
+"heatmap_palette": "vlag",
 ```
 
-## Suggested classroom exercise
+The causal graph also exposes palette and edge-opacity settings.
 
-1. Run notebook 00.
-2. Do not inspect the ground-truth edge CSV.
-3. Run notebook 01 and fill in the DAG worksheet.
-4. In notebook 02, build your DAG.
-5. Freeze it.
-6. Estimate the causal effect.
-7. Reveal the synthetic DAG.
-8. Discuss why some statistical clues were useful and others were misleading.
+---
 
-That final comparison is the reason the synthetic causal roles were designed explicitly.
+# Suggested workflow for students
+
+### First
+
+Run notebook 00 from top to bottom.
+
+Do not inspect the hidden DAG.
+
+### Second
+
+Run notebook 01.
+
+Study the plots carefully.
+
+Fill in the DAG worksheet.
+
+### Third
+
+Run notebook 02.
+
+Build your causal graph from your reasoning.
+
+Freeze the graph.
+
+Run identification and estimation.
+
+### Finally
+
+Reveal the synthetic DAG.
+
+Compare your assumptions with the actual data-generating process.
+
+Then ask:
+
+> **Which mistakes would I have made if I had chosen adjustment variables using correlation alone?**
+
+If you can answer that question clearly, you have understood the central lesson of the tutorial.
+
+---
+
+# Final reminder
+
+A statistical model can estimate an effect.
+
+A causal model explains **what that effect means**.
+
+And that meaning depends on the assumptions encoded in the graph.
