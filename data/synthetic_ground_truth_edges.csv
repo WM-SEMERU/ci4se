@@ -1,14 +1,14 @@
 source,target,reason,source_role
-code_number_tokens,treatment,larger code increases intervention use,confounder
-code_number_tokens,output,larger code makes successful documentation harder,confounder
-code_complexity,treatment,more complex code increases intervention use,confounder
-code_complexity,output,more complex code makes the outcome harder,confounder
-developer_experience,treatment,experience influences intervention uptake,confounder
-developer_experience,output,experience improves documentation success,confounder
-rollout_eligibility,treatment,eligibility encourages intervention use,instrument_candidate
-code_num_strings,output,string-heavy code affects documentation difficulty,outcome_predictor
-treatment,docstring_detail_score,the intervention increases documentation detail,treatment
-docstring_detail_score,output,more detailed documentation improves success,mediator
-treatment,output,the intervention also has a direct effect,treatment
-treatment,review_flag,intervention use changes review probability,treatment
-output,review_flag,the observed outcome also changes review probability,outcome
+code_number_tokens,treatment,larger code examples are more likely to receive the defense,confounder
+code_number_tokens,outcome,larger code examples can make backdoor detection harder,confounder
+code_complexity,treatment,more complex code is more likely to receive the defense,confounder
+code_complexity,outcome,greater complexity can make backdoor detection harder,confounder
+reviewer_experience,treatment,reviewer experience influences whether the defense is used,confounder
+reviewer_experience,outcome,reviewer experience can improve detection success,confounder
+rollout_eligibility,treatment,eligibility for the defense rollout increases defense use,instrument_candidate
+code_num_strings,outcome,string-heavy code changes how easy a backdoor is to detect,outcome_predictor
+treatment,inspection_intensity,the defense causes a deeper inspection process,treatment
+inspection_intensity,outcome,deeper inspection increases detection success,mediator
+treatment,outcome,the defense also has a direct effect on detection success,treatment
+treatment,manual_review_flag,defense use changes the probability of manual review,treatment
+outcome,manual_review_flag,detected cases are more likely to be reviewed manually,outcome

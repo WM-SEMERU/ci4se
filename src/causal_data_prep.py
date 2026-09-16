@@ -3,7 +3,7 @@ Data preparation for the backdoor-defense causal inference tutorial.
 
 The raw code/docstring corpus supplies heterogeneous software examples. The
 backdoor-defense treatment, detection outcome, and a few contextual variables
-are synthetic so that the tutorial has a known data-generating process.
+are synthetic.
 
 The student-facing causal question is:
 
@@ -16,11 +16,10 @@ backdoor detection.
 
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 from pathlib import Path
 import hashlib
 import io
-import json
 import keyword
 import re
 import tokenize
@@ -41,92 +40,6 @@ DEFAULT_COVARIATES = [
     "inspection_intensity",
     "manual_review_flag",
 ]
-
-
-# Hidden teaching DAG. Students are asked not to inspect this until the reveal
-# section of notebook 02.
-GROUND_TRUTH_EDGES = [
-    (
-        "code_number_tokens",
-        "treatment",
-        "larger code examples are more likely to receive the defense",
-    ),
-    (
-        "code_number_tokens",
-        "outcome",
-        "larger code examples can make backdoor detection harder",
-    ),
-    (
-        "code_complexity",
-        "treatment",
-        "more complex code is more likely to receive the defense",
-    ),
-    (
-        "code_complexity",
-        "outcome",
-        "greater complexity can make backdoor detection harder",
-    ),
-    (
-        "reviewer_experience",
-        "treatment",
-        "reviewer experience influences whether the defense is used",
-    ),
-    (
-        "reviewer_experience",
-        "outcome",
-        "reviewer experience can improve detection success",
-    ),
-    (
-        "rollout_eligibility",
-        "treatment",
-        "eligibility for the defense rollout increases defense use",
-    ),
-    (
-        "code_num_strings",
-        "outcome",
-        "string-heavy code changes how easy a backdoor is to detect",
-    ),
-    (
-        "treatment",
-        "inspection_intensity",
-        "the defense causes a deeper inspection process",
-    ),
-    (
-        "inspection_intensity",
-        "outcome",
-        "deeper inspection increases detection success",
-    ),
-    (
-        "treatment",
-        "outcome",
-        "the defense also has a direct effect on detection success",
-    ),
-    (
-        "treatment",
-        "manual_review_flag",
-        "defense use changes the probability of manual review",
-    ),
-    (
-        "outcome",
-        "manual_review_flag",
-        "detected cases are more likely to be reviewed manually",
-    ),
-]
-
-
-GROUND_TRUTH_ROLES = {
-    "code_number_tokens": "confounder",
-    "code_complexity": "confounder",
-    "reviewer_experience": "confounder",
-    "rollout_eligibility": "instrument_candidate",
-    "code_num_strings": "outcome_predictor",
-    "inspection_intensity": "mediator",
-    "manual_review_flag": "collider",
-    "code_num_identifiers": "proxy_or_correlated_measurement",
-    "noise_feature": "irrelevant",
-    "treatment": "treatment",
-    "outcome": "outcome",
-}
 
 
 def load_source_data(
@@ -273,7 +186,6 @@ def _sigmoid(values):
 @dataclass(frozen=True)
 class SyntheticStudyInfo:
     seed: int
-    true_average_treatment_effect: float
     treatment_prevalence: float
     outcome_prevalence: float
 
@@ -390,7 +302,6 @@ def make_synthetic_observational_data(
 
     info = SyntheticStudyInfo(
         seed=seed,
-        true_average_treatment_effect=float(np.mean(p_y1 - p_y0)),
         treatment_prevalence=float(causal_df["treatment"].mean()),
         outcome_prevalence=float(causal_df["outcome"].mean()),
     )
@@ -463,30 +374,4 @@ def save_causal_dataset(causal_df: pd.DataFrame, path: str | Path) -> Path:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     causal_df.to_csv(path, index=False)
-    return path
-
-
-def save_study_metadata(info: SyntheticStudyInfo, path: str | Path) -> Path:
-    """Save hidden synthetic-study metadata for the reveal in notebook 02."""
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(asdict(info), indent=2), encoding="utf-8")
-    return path
-
-
-def save_ground_truth_dag(path: str | Path) -> Path:
-    """Save the hidden synthetic DAG used for the notebook-02 reveal."""
-    path = Path(path)
-    path.parent.mkdir(parents=True, exist_ok=True)
-
-    rows = [
-        {
-            "source": source,
-            "target": target,
-            "reason": reason,
-            "source_role": GROUND_TRUTH_ROLES.get(source, ""),
-        }
-        for source, target, reason in GROUND_TRUTH_EDGES
-    ]
-    pd.DataFrame(rows).to_csv(path, index=False)
     return path
