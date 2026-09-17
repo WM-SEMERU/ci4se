@@ -1,12 +1,12 @@
 # Causal Inference Tutorial
 
-Estimate the causal effect of a **backdoor defense** on **backdoor detection**.
+Estimate the causal effect of a backdoor defense on backdoor detection.
 
 The causal question:
 
 > **To what extent does applying the backdoor defense, instead of baseline random filtering, change the probability of successful backdoor detection?**
 
-No prior background in causal inference is assumed. Each concept is introduced in the notebook where it is first needed; the glossary below is a quick reference.
+The tutorial assumes no background in causal inference. Each notebook introduces the concepts it needs, and the glossary below collects them in one place.
 
 ---
 
@@ -16,7 +16,7 @@ Create and activate a Python environment:
 
 ```bash
 python -m venv .venv
-source .venv/bin/activate        # macOS / Linux
+source .venv/bin/activate        # macOS and Linux
 .venv\Scripts\Activate.ps1       # Windows PowerShell
 ```
 
@@ -33,43 +33,74 @@ Then open `00_data_preparation.ipynb` and work through the notebooks in order.
 
 ## The three notebooks
 
-Run them in order. Each produces a file the next one needs.
+Run them in order. Each one produces a file the next one needs.
 
 | Notebook | Question it answers | Produces |
 |---|---|---|
-| `00_data_preparation.ipynb` | What was observed for each unit? | `data/causal_data.csv` |
-| `01_correlational_analysis.ipynb` | What patterns are visible in the data? | `data/dag_worksheet.csv` |
+| `00_data_preparation.ipynb` | What did we observe for each unit? | `data/causal_data.csv` |
+| `01_correlational_analysis.ipynb` | What patterns appear in the data? | `data/dag_worksheet.csv` |
 | `02_causal_inference.ipynb` | What is the causal effect? | your DAG and the estimated ATE |
 
-The treatment assignment and detection outcome are synthetic, so the numbers are a teaching exercise rather than empirical results about any real defense.
+A program generates the treatment assignment and the detection outcome, so the numbers serve as a teaching exercise rather than as results about any real defense.
 
 ---
 
 ## Key terms
 
-**Unit** — one thing you observe and could apply the treatment to. Here, one code example.
+**Unit.** One thing you observe and could apply the treatment to. Here, one code example.
 
-**Treatment** — the action whose effect you want to measure. The word comes from medicine but means any intervention; here it is the backdoor defense.
+**Treatment.** The action whose effect you want to measure. The word comes from medicine, but it covers any intervention. Here it is the backdoor defense.
 
-**Outcome** — the result measured afterwards. Here, whether the backdoor was detected.
+**Outcome.** The result you measure afterwards. Here, whether the pipeline detected the backdoor.
 
-**Covariate** — any other variable recorded about a unit, such as code complexity.
+**Covariate.** Any other variable you record about a unit, such as code complexity.
 
-**Association (correlation)** — two variables move together. Computable from data.
+**Association**, also called correlation. Two variables move together. You can compute this from data.
 
-**Causation** — changing one *makes* the other change. Not computable from data alone; it needs assumptions.
+**Causation.** Changing one variable makes the other change. You cannot compute this from data alone, because it rests on assumptions.
 
-**Confounder** — a variable that causes *both* treatment and outcome. It creates association that is not a causal effect, and it is the main reason raw comparisons mislead.
+**Confounder.** A variable that causes both the treatment and the outcome. It creates association that is not a causal effect, and it is the main reason raw comparisons mislead you.
 
-**Mediator** — a variable on the path `treatment → X → outcome`. It carries part of the effect, so adjusting for it hides what you are trying to measure.
+**Mediator.** A variable on the path `treatment → X → outcome`. It carries part of the effect, so adjusting for it hides what you want to measure.
 
-**Collider** — a variable caused by both treatment and outcome (`treatment → X ← outcome`). Adjusting for it *creates* bias where there was none.
+**Collider.** A variable that both the treatment and the outcome cause, as in `treatment → X ← outcome`. Adjusting for it creates bias where none existed.
 
-**Counterfactual** — what would have happened to a unit under the other condition. Never observed, which is the central difficulty of the field.
+**Counterfactual.** What would have happened to a unit under the other condition. You never observe it, and that absence is the central difficulty of the field.
 
-**DAG (directed acyclic graph)** — a diagram of your causal assumptions. Each variable is a node; an arrow `A → B` claims A directly causes B.
+**DAG**, short for directed acyclic graph. A diagram of your causal assumptions. Each variable is a node, and an arrow `A → B` claims that A directly causes B.
 
-**ATE (average treatment effect)** — the average causal effect across all units.
+**ATE**, short for average treatment effect. The average causal effect across all units.
+
+---
+
+## Where the variables come from
+
+Each example moves through a pipeline, one stage at a time. The stage that produces a variable decides what causal role that variable can possibly have.
+
+```text
+  STAGE 1  the example arrives
+           code_number_tokens, code_complexity,
+           code_num_identifiers, code_num_strings,
+           reviewer_experience, rollout_eligibility, noise_feature
+                    |
+                    v
+  STAGE 2  a method is chosen                    treatment (0 or 1)
+                    |
+                    v
+  STAGE 3  the chosen method runs                inspection_intensity
+                    |
+                    v
+  STAGE 4  it reports a verdict                  outcome (0 or 1)
+                    |
+                    v
+  STAGE 5  the case may go to a human            manual_review_flag
+```
+
+Stage 1 variables either come from the corpus or follow from parsing the code. The four `code_*` features come from `input_code`: a token count, cyclomatic complexity, the number of distinct identifiers, and the number of string literals. The `reviewer_experience` column scores the reviewer handling the example, from 0 to 12. The `rollout_eligibility` column marks whether policy has cleared an example for the new defense, which is a scheduling decision that policy makes before the pipeline processes anything. All of these exist before anyone chooses a method, so any of them could have influenced that choice.
+
+Stages 3 and 5 produce variables that do not exist until after someone chooses a method. The `inspection_intensity` column measures work that the chosen method performed, so before stage 2 there is nothing to measure. The `manual_review_flag` column records an escalation that happens after the verdict, so both the method and the result are already known when anyone sets it.
+
+This is why we describe those two as measured after treatment. It is not a convention. It follows from the order of the stages, and no correlation overrides it.
 
 ---
 
@@ -77,38 +108,38 @@ The treatment assignment and detection outcome are synthetic, so the numbers are
 
 | `treatment` | Meaning |
 |---:|---|
-| `0` | baseline random filtering (control) |
-| `1` | backdoor defense (treated) |
+| `0` | baseline random filtering, the control condition |
+| `1` | backdoor defense, the treated condition |
 
 | `outcome` | Meaning |
 |---:|---|
 | `0` | detection failed |
 | `1` | detection succeeded |
 
-Because `outcome` is only ever 0 or 1, its mean is the fraction of successes — the **Detection Success Rate (DSR)**. So `mean(outcome) = 0.70` means 70 percent of examples were detected.
+Since `outcome` only ever takes the value 0 or 1, its mean gives the fraction of successes, which we call the detection success rate. So `mean(outcome) = 0.70` means the pipeline detected 70 percent of the examples.
 
 ---
 
-## What is being estimated
+## What you are estimating
 
 Each example has two potential outcomes:
 
-- **Y(1)** — the detection result if the backdoor defense is applied;
-- **Y(0)** — the detection result under baseline random filtering.
+- **Y(1)**, the detection result if the pipeline applies the backdoor defense;
+- **Y(0)**, the detection result under baseline random filtering.
 
-Only one of the two is ever observed per example, which is exactly why causal inference is needed.
+You only ever observe one of the two per example, which is exactly why causal inference exists.
 
-The tutorial estimates the **Average Treatment Effect**:
+The tutorial estimates the average treatment effect:
 
-**ATE = E[Y(1) − Y(0)]**
+**ATE = E[Y(1) - Y(0)]**
 
-`ATE = 0.10` means the defense increases successful detection by about 10 percentage points on average.
+An ATE of `0.10` means the defense raises successful detection by about 10 percentage points on average.
 
 ---
 
 ## The idea to keep straight
 
-Three kinds of statement are easy to confuse:
+Three kinds of statement look similar and mean different things.
 
 | Kind | Example | What it is |
 |---|---|---|
@@ -116,11 +147,11 @@ Three kinds of statement are easy to confuse:
 | Association | `code_complexity` correlates with `treatment` | a pattern in the observed data |
 | Causal claim | `code_complexity → treatment` | a claim that changing one changes the other |
 
-An association never promotes itself to a causal claim. Before drawing any edge `A → B`, answer one question:
+An association never promotes itself to a causal claim. Before you draw any edge `A → B`, answer one question:
 
 > **Why would A cause B?**
 
-"They are correlated" is not an answer. Choosing which variables to adjust for is a reasoning problem, not a correlation-ranking problem.
+"They are correlated" does not answer it. Deciding which variables to adjust for is a reasoning problem, not a correlation ranking problem.
 
 ---
 
@@ -135,7 +166,7 @@ bowen_class/
 ├── requirements.txt
 │
 ├── data/
-│   └── raw_code.csv          # source examples; causal_data.csv is generated by notebook 00
+│   └── raw_code.csv          # source examples; notebook 00 generates causal_data.csv
 │
 ├── slides/
 │   └── Causal_interpretability.pdf
@@ -148,4 +179,4 @@ bowen_class/
     └── causal_tutorial_utils.py
 ```
 
-The notebooks are the tutorial. `src/` holds the supporting Python code.
+The notebooks carry the tutorial. The `src/` folder holds the supporting Python code.
