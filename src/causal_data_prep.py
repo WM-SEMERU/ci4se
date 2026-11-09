@@ -183,16 +183,82 @@ def _sigmoid(values):
     return 1.0 / (1.0 + np.exp(-np.clip(values, -30, 30)))
 
 
+# Coefficients of the synthetic data-generating process. Signs follow the plain-language
+# reasons in data/synthetic_ground_truth_edges.csv; magnitudes were retuned so that the
+# naive treated-vs-control comparison is visibly confounded.
+ORIGINAL_GENERATOR_COEFFICIENTS = {
+    "treatment_intercept": -0.45,
+    "treatment_code_complexity": 0.50,
+    "treatment_code_number_tokens": 0.35,
+    "treatment_reviewer_experience": 0.35,
+    "treatment_rollout_eligibility": 1.00,
+    "inspection_noise_sd": 0.80,
+    "inspection_treatment": 0.90,
+    "outcome_intercept": -0.80,
+    "outcome_treatment": 0.45,
+    "outcome_inspection_intensity": 0.65,
+    "outcome_code_complexity": -0.35,
+    "outcome_code_number_tokens": -0.15,
+    "outcome_reviewer_experience": 0.35,
+    "outcome_code_num_strings": 0.45,
+    "review_intercept": -1.10,
+    "review_treatment": 0.90,
+    "review_outcome": 1.00,
+    "review_noise_sd": 0.25,
+}
+
+# Retuned 2026-11 (candidate "D"): reviewer_experience is a strong confounder that inflates the naive
+# comparison, code complexity / tokens are confounders that push the other way (omitting either part of the
+# adjustment set visibly biases the estimate), most of the effect runs through the mediator, and the collider
+# is strong enough that adjusting for post-treatment variables collapses the estimate.
+GENERATOR_COEFFICIENTS = {
+    **ORIGINAL_GENERATOR_COEFFICIENTS,
+    "treatment_code_complexity": 0.35,
+    "treatment_code_number_tokens": 0.25,
+    "treatment_reviewer_experience": 1.00,
+    "inspection_treatment": 1.30,
+    "outcome_treatment": 0.10,
+    "outcome_inspection_intensity": 0.90,
+    "outcome_code_complexity": -0.65,
+    "outcome_code_number_tokens": -0.30,
+    "outcome_reviewer_experience": 1.00,
+    "review_treatment": 1.50,
+    "review_outcome": 1.80,
+}
+
+
 @dataclass(frozen=True)
 class SyntheticStudyInfo:
+    """Summary of one synthetic draw, including the true potential-outcome probabilities.
+
+    Attributes:
+        seed: Random seed used for the draw.
+        treatment_prevalence: Share of units with treatment=1.
+        outcome_prevalence: Share of units with outcome=1.
+        propensity: True (clipped) treatment probability per unit.
+        p_y0: True detection probability per unit under control (mediator at its control value).
+        p_y1: True detection probability per unit under the defense (mediator at its treated value).
+        clipped_share: Share of units whose true propensity hit the [0.05, 0.95] bounds.
+    """
+
     seed: int
     treatment_prevalence: float
     outcome_prevalence: float
+    propensity: np.ndarray | None = None
+    p_y0: np.ndarray | None = None
+    p_y1: np.ndarray | None = None
+    clipped_share: float = 0.0
+
+    @property
+    def true_ate(self) -> float:
+        """Average treatment effect E[p_y1 - p_y0] over all units."""
+        return float(np.mean(self.p_y1 - self.p_y0))
 
 
 def make_synthetic_observational_data(
     feature_df: pd.DataFrame,
     seed: int = 42,
+    coefficients: dict | None = None,
 ) -> tuple[pd.DataFrame, SyntheticStudyInfo]:
     """
     Create one observed treatment and one observed detection outcome per unit.
@@ -204,7 +270,16 @@ def make_synthetic_observational_data(
 
     The data-generating process intentionally contains different causal roles
     so that correlation alone is not sufficient to construct the correct DAG.
+
+    Args:
+        feature_df: Engineered features (code features plus synthetic context columns).
+        seed: Seed for the numpy Generator; the draw order is fixed.
+        coefficients: Optional overrides of GENERATOR_COEFFICIENTS (used for tuning).
+
+    Returns:
+        The unit-level causal table and a SyntheticStudyInfo with the true potential outcomes.
     """
+    coef = {**GENERATOR_COEFFICIENTS, **(coefficients or {})}
     required = [
         "code_number_tokens",
         "code_complexity",
@@ -233,19 +308,21 @@ def make_synthetic_observational_data(
     # Treatment assignment is observational rather than randomized. Baseline
     # characteristics affect whether the dedicated defense is applied.
     treatment_logit = (
-        -0.45
-        + 0.50 * z["code_complexity"]
-        + 0.35 * z["code_number_tokens"]
-        + 0.35 * z["reviewer_experience"]
-        + 1.00 * rollout
+        coef["treatment_intercept"]
+        + coef["treatment_code_complexity"] * z["code_complexity"]
+        + coef["treatment_code_number_tokens"] * z["code_number_tokens"]
+        + coef["treatment_reviewer_experience"] * z["reviewer_experience"]
+        + coef["treatment_rollout_eligibility"] * rollout
     )
-    propensity = np.clip(_sigmoid(treatment_logit), 0.05, 0.95)
+    raw_propensity = _sigmoid(treatment_logit)
+    propensity = np.clip(raw_propensity, 0.05, 0.95)
+    clipped_share = float(np.mean((raw_propensity <= 0.05) | (raw_propensity >= 0.95)))
     treatment = rng.binomial(1, propensity).astype(int)
 
     # Post-treatment mediator: applying the defense causes deeper inspection.
-    inspection_noise = rng.normal(0.0, 0.80, size=len(feature_df))
+    inspection_noise = rng.normal(0.0, coef["inspection_noise_sd"], size=len(feature_df))
     inspection_under_control = inspection_noise
-    inspection_under_defense = inspection_noise + 0.90
+    inspection_under_defense = inspection_noise + coef["inspection_treatment"]
     inspection_observed = np.where(
         treatment == 1,
         inspection_under_defense,
@@ -254,18 +331,18 @@ def make_synthetic_observational_data(
 
     def detection_probability(treatment_value, inspection_value):
         detection_logit = (
-            -0.80
-            + 0.45 * treatment_value
-            + 0.65 * inspection_value
-            - 0.35 * z["code_complexity"]
-            - 0.15 * z["code_number_tokens"]
-            + 0.35 * z["reviewer_experience"]
-            + 0.45 * z["code_num_strings"]
+            coef["outcome_intercept"]
+            + coef["outcome_treatment"] * treatment_value
+            + coef["outcome_inspection_intensity"] * inspection_value
+            + coef["outcome_code_complexity"] * z["code_complexity"]
+            + coef["outcome_code_number_tokens"] * z["code_number_tokens"]
+            + coef["outcome_reviewer_experience"] * z["reviewer_experience"]
+            + coef["outcome_code_num_strings"] * z["code_num_strings"]
         )
         return _sigmoid(detection_logit)
 
-    p_y0 = detection_probability(0, inspection_under_control)
-    p_y1 = detection_probability(1, inspection_under_defense)
+    p_y0 = np.asarray(detection_probability(0, inspection_under_control), dtype=float)
+    p_y1 = np.asarray(detection_probability(1, inspection_under_defense), dtype=float)
 
     observed_probability = np.where(treatment == 1, p_y1, p_y0)
     outcome = rng.binomial(1, observed_probability).astype(int)
@@ -273,10 +350,10 @@ def make_synthetic_observational_data(
     # Post-outcome collider: both use of the defense and successful detection
     # make manual review more likely.
     manual_review_logit = (
-        -1.10
-        + 0.90 * treatment
-        + 1.00 * outcome
-        + rng.normal(0.0, 0.25, size=len(feature_df))
+        coef["review_intercept"]
+        + coef["review_treatment"] * treatment
+        + coef["review_outcome"] * outcome
+        + rng.normal(0.0, coef["review_noise_sd"], size=len(feature_df))
     )
     manual_review_flag = rng.binomial(
         1,
@@ -304,6 +381,10 @@ def make_synthetic_observational_data(
         seed=seed,
         treatment_prevalence=float(causal_df["treatment"].mean()),
         outcome_prevalence=float(causal_df["outcome"].mean()),
+        propensity=np.asarray(propensity, dtype=float),
+        p_y0=p_y0,
+        p_y1=p_y1,
+        clipped_share=clipped_share,
     )
     return causal_df, info
 
